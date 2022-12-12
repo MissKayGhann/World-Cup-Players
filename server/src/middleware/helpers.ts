@@ -2,6 +2,19 @@ import { Request } from "express";
 import { ValidationError } from "express-validator";
 
 /**
+ * Validate the provided string date is valid.
+ * @param date The date to check is valid, in YYYY-MM-DD format.
+ * @returns `true` if `s` is a valid date, else `false`.
+ */
+export function isValidDate(s: any) {
+    if (typeof s !== "string" || !/\d{4}-\d{2}-\d{2}/.test(s)) return false;
+
+    const bits = s.split(new RegExp("-", "g"));
+    const d = new Date(+bits[0], +bits[1] - 1, +bits[2]);
+    return d.getFullYear() === +bits[0] && d.getMonth() + 1 === +bits[1];
+}
+
+/**
  * Add a validation error to the provided errors array.
  * @param errors The list of errors to append to.
  * @param paramName The parameter that was being validated when the error occured.
@@ -48,7 +61,7 @@ export function validateDefaultOfZero(
             errors,
             bodyParam,
             value,
-            `${prettyBodyParam} must be a positive integer (defaults to 0 when not param provided)`
+            `${prettyBodyParam} must be a positive integer (defaults to 0 when param not provided)`
         );
         return errors;
     }

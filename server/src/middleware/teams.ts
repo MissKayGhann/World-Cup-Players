@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ValidationError } from "express-validator";
-import { addBodyValidationError, validateDefaultOfZero } from "./helpers";
+import { addBodyValidationError, isValidDate, validateDefaultOfZero } from "./helpers";
 
 const validPlayerKeys = {
     required: ["name", "dob", "photo"],
@@ -44,12 +44,27 @@ function validatePlayers(players: any): string | undefined {
         }
 
         // If the player has any keys not in validPlayerKeys, then it's invalid
-        for (let key of player) {
-            if (
-                !validPlayerKeys.required.includes(key) && // isn't a required key, and...
-                !validPlayerKeys.optional.includes(key) // ...isn't an optional key
-            )
-                return `Invalid key for a player: ${key}`;
+        for (let key of Object.keys(player)) {
+            const formattedValue =
+                typeof player[key] === "string" ? `'${player[key]}'` : player[key];
+            if (validPlayerKeys.required.includes(key)) {
+                // Validate player's name
+                if (key === "name" && typeof player[key] !== "string")
+                    return `Invalid name for a player: ${formattedValue}`;
+                // Validate player's dob
+                else if (key === "dob" && !isValidDate(player[key]))
+                    return `Invalid dob for a player: ${formattedValue}`;
+                // Validate player's photo
+                else if (key === "photo" && typeof player[key] !== "string")
+                    return `Invalid photo for a player: ${formattedValue}`;
+            } else if (validPlayerKeys.optional.includes(key)) {
+                // Validate optional player attributes (e.g. goalsScored)
+                if (
+                    player[key] !== undefined &&
+                    (typeof player[key] !== "number" || player[key] < 0)
+                )
+                    return `Invalid ${key} for a player: ${formattedValue}`;
+            } else return `Invalid key for a player: '${key}'`;
         }
     }
 }
@@ -85,7 +100,7 @@ export async function validateTeam(req: Request, resp: Response, next: NextFunct
             validationErrors,
             "flag",
             flag,
-            "Flag must be a non-empty string"
+            "Flag must be a non-empty, title-case, hyphenated string, ending with .png"
         );
 
     const fifaCode = req.body.fifaCode;

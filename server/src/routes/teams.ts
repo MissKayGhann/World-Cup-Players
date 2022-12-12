@@ -12,8 +12,9 @@ router.delete("/teams", async (_, resp) => {
 });
 
 router.post("/teams", validateTeam, async (req, resp) => {
-    console.log(req, resp);
+    console.log(req.body);
     console.log("Inside POST /teams");
+    resp.sendStatus(201);
 });
 
 export default router;
