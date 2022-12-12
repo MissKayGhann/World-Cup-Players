@@ -1,20 +1,20 @@
-import Logo from "./components/Logo"
-import Qatar_Banner from "./components/Qatar-Banner";
-import Nations from './components/Nations';
-import './index.css';
+import Logo from "../../components/Logo";
+import QatarBanner from "../../components/QatarBanner";
+import Nations from "../../components/Nations";
+import "./index.css";
 
 const Home = () => {
-    return (
-        <>
-        <header>
-            <Logo />
-            <Qatar_Banner />
-        </header>
-        <br />
-        <main>
-            <Nations nation="England" imgSrc="#"/>
-        </main>
-        </>
-    )
-}
-export default Home
+	return (
+		<>
+			<header>
+				<Logo />
+				<QatarBanner />
+			</header>
+			<br />
+			<main>
+				<Nations nation="England" imgSrc="#" />
+			</main>
+		</>
+	);
+};
+export default Home;
