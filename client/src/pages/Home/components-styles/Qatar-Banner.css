@@ -1,0 +1,19 @@
+.banner-box {
+    background-color: #a5978b;
+    height: 30vh;
+}
+
+.qatar {
+    font-style: italic;
+    line-height: 0px;
+    font-size: large;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.fifa {
+    /* margin-bottom: 0; */
+    text-align: center ;
+    padding-top: 7.5rem;
+    line-height: 0px;
+}

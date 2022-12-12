@@ -5,7 +5,7 @@ const Logo = () => {
         <>
         <section className="logoName">
             <h1>
-                WORLD CUP 2022
+                World Cup 2022
             </h1>
         </section>
         </>
