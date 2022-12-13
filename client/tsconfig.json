@@ -6,28 +6,23 @@
       "dom.iterable",
       "esnext"
     ],
-    "noEmitOnError": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false,
-    "jsx": "preserve",
+    "isolatedModules": true,
+    "noEmit": true,
+    "noEmitOnError": true,
     "rootDir": "./src",
-    "outDir": "./dist"
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "outDir": "./dist",
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "jsx": "react-jsx"
+  }
 }
