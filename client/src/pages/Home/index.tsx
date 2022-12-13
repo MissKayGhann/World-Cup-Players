@@ -12,7 +12,7 @@ const Home = () => {
 			</header>
 			<br />
 			<main>
-				<Nations nation="England" imgSrc="#" />
+				<Nations nation="England" imgFileName="qatar-stadium.png" />
 			</main>
 		</>
 	);
