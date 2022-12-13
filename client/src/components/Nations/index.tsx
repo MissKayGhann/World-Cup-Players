@@ -4,10 +4,9 @@ import useImage from "../../utils/useImage";
 interface INationProps {
     nation: string;
     imgFileName: string;
-    alt?: string;
 }
 // client / src / assets / qatar - stadium.png;
-const Nations = ({ nation, imgFileName, alt }: INationProps): JSX.Element => {
+const Nations = ({ nation, imgFileName }: INationProps): JSX.Element => {
     const { loading, image, error } = useImage(imgFileName);
 
     return (
