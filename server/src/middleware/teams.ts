@@ -3,6 +3,16 @@ import { Request, Response, NextFunction } from "express";
 import { ddbdClient } from "../lib";
 
 /**
+ * Convert a string to title case (e.g. "hello world" -> "Hello World").
+ * @param string The string to convert to title case.
+ * @returns The string converted to title case.
+ */
+function toTitleCase(string: string) {
+    const words = string.split(" ");
+    return words.map(word => word[0].toUpperCase() + word.slice(1).toLowerCase()).join(" ");
+}
+
+/**
  * Get the nation that has the specified fifa code.
  * @param fifaCode The fifa code to check for.
  * @returns The corresponding nation, if found, else null
@@ -16,7 +26,7 @@ async function getNationFromFifaCode(fifaCode: string): Promise<string | null> {
                 ProjectionExpression: "nation",
                 KeyConditionExpression: "fifaCode = :v_fifaCode",
                 ExpressionAttributeValues: {
-                    ":v_fifaCode": fifaCode,
+                    ":v_fifaCode": fifaCode.toUpperCase(),
                 },
             })
         )
@@ -38,7 +48,7 @@ async function teamNationExists(nation: string) {
                 ProjectionExpression: "nation",
                 KeyConditionExpression: "nation = :v_nation",
                 ExpressionAttributeValues: {
-                    ":v_nation": nation,
+                    ":v_nation": toTitleCase(nation),
                 },
             })
         )
@@ -50,7 +60,7 @@ export async function validateTeamId(req: Request, resp: Response, next: NextFun
     const teamId = req.params.teamId;
 
     let nation;
-    if (/^[A-Z]{3}$/.test(teamId)) {
+    if (/^[A-z]{3}$/.test(teamId)) {
         // Provided a fifa code
         nation = await getNationFromFifaCode(teamId);
         if (!nation) {
@@ -78,7 +88,7 @@ export async function validateTeamId(req: Request, resp: Response, next: NextFun
             ]);
             return;
         }
-        nation = teamId;
+        nation = toTitleCase(teamId);
     }
     req.params.nation = nation;
     next();
