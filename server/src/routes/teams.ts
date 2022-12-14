@@ -1,7 +1,7 @@
 import Router from "express";
 import { GetCommand, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { ddbdClient } from "../lib";
-import { validateTeam, validateTeamId } from "../middleware";
+import { validateTeamId } from "../middleware";
 
 const router = Router();
 
@@ -62,16 +62,6 @@ router.get("/:teamId/players/:player", validateTeamId, async (req, resp) => {
         return;
     }
     resp.json(matchingPlayers[0]);
-});
-
-router.delete("/teams", async (_, resp) => {
-    resp.status(204).json([]);
-});
-
-router.post("/teams", validateTeam, async (req, resp) => {
-    console.log(req.body);
-    console.log("Inside POST /teams");
-    resp.sendStatus(201);
 });
 
 export default router;
