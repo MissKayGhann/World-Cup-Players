@@ -56,6 +56,13 @@ async function teamNationExists(nation: string) {
     return data.length > 0;
 }
 
+/**
+ * Validates the provided `teamId` in the API call's parameters
+ * and sets `req.params.nation` to the corresponding nation.
+ * @param req The API call's request object.
+ * @param resp The API call's response object.
+ * @param next Function that calls the next piece of middleware.
+ */
 export async function validateTeamId(req: Request, resp: Response, next: NextFunction) {
     const teamId = req.params.teamId;
 
