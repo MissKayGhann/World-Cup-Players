@@ -44,7 +44,7 @@ const Nations = ({ nation, imgFileName }: INationProps): JSX.Element => {
 
             {openModal && (
                 <div className="modal-container">
-                    <Modal nationInfo={nationInfo} />
+                    <Modal setOpenModal={setOpenModal} nationInfo={nationInfo} />
                 </div>
             )}
         </div>
