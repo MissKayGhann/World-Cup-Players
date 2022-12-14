@@ -12,21 +12,7 @@
 	overflow-y: scroll;
 	scrollbar-color: #a23982 #1f1013;
 
-	& ::-webkit-scrollbar {
-		width: 16px;
-	}
-
-	& ::-webkit-scrollbar-track {
-		background: #a23982,;
-	}
-
-	& ::-webkit-scrollbar-thumb {
-		background: #1f1013;
-	}
-
-	& ::-webkit-scrollbar-thumb:hover {
-		background: white;
-	}
+	
 	
 
 	.modal-close-button {
@@ -56,3 +42,18 @@
     font-size: large;
 }
 
+.modal::-webkit-scrollbar {
+	width: 16px;
+}
+
+.modal::-webkit-scrollbar-track {
+	background: #a23982,;
+}
+
+.modal::-webkit-scrollbar-thumb {
+	background: #1f1013;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+	background: white;
+}
