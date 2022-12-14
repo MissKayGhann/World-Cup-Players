@@ -12,11 +12,7 @@ interface INationProps {
 const Nations = ({ nation, imgFileName }: INationProps): JSX.Element => {
     const { loading, image, error } = useImage(imgFileName);
 
-    const [classes, setClasses] = useState("hidden modal");
-
-    const handleOnClick = () => {
-        classes === "hidden modal" ? setClasses("modal") : setClasses("hidden modal");
-    };
+    const [openModal, setOpenModal] = useState(false);
 
     let nationInfo: INationInfo = {
         nation: "Qatar",
@@ -28,7 +24,7 @@ const Nations = ({ nation, imgFileName }: INationProps): JSX.Element => {
         <div className="">
             <div
                 className="nation-box"
-                onClick={handleOnClick}
+                onClick={() => setOpenModal(true)}
                 style={
                     // conditionally rendering the background using ternary operator
                     error || loading
@@ -45,7 +41,12 @@ const Nations = ({ nation, imgFileName }: INationProps): JSX.Element => {
                     <p>{nation}</p>
                 </div>
             </div>
-            <Modal classes={classes} nationInfo={nationInfo} />
+
+            {openModal && (
+                <div className="modal-container">
+                    <Modal nationInfo={nationInfo} />
+                </div>
+            )}
         </div>
     );
 };

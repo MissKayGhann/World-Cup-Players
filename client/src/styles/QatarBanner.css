@@ -1,5 +1,11 @@
 .banner-box {
-    background-color: #a5978b;
+    /* background-color: rgb(86, 6, 28); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #a23982;
+    color: white;
     height: 30vh;
 }
 
@@ -14,6 +20,5 @@
 .fifa {
     /* margin-bottom: 0; */
     text-align: center ;
-    padding-top: 7.5rem;
     line-height: 0px;
 }
