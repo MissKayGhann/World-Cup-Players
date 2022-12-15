@@ -31,17 +31,21 @@
 	// overflow: hidden;
 	transition: all .2s ease;
 	background-color: rgba(255, 255, 255, 0.4);
+	width: 100%;
+	display: flex;
 
 	.player-img {
 		width: 300px;
 		height: 300px;
+		justify-self: center;
+		margin:10px;
 	}
 }
 
-.content {
-	padding: 0 18px;
-	max-height: 0;
-	overflow: hidden;
-	transition: max-height 0.2s ease-out;
-	background-color: #f1f1f1;
+.hidden {
+	display: none;
+}
+
+.rotate {
+	transform: rotate(180deg);
 }

@@ -44,6 +44,11 @@ const Modal = ({ setOpenModal, nationInfo }: IModalProps): JSX.Element => {
                 <img src={image ? image : "#"} alt="alt text here" className="nation-img" />
                 <h3>{nationInfo.nation}</h3>
                 <Player props={playerProps.props} />
+                <Player props={playerProps.props} />
+                <Player props={playerProps.props} />
+                <Player props={playerProps.props} />
+                <Player props={playerProps.props} />
+                <Player props={playerProps.props} />
             </div>
         </div>
     );

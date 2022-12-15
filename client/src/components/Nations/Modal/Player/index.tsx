@@ -2,11 +2,30 @@ import dropdownArrow from "../../../../assets/dropdown-arrow.svg";
 import useImage from "../../../../utils/useImage";
 import { IPlayerProps } from "../../../../types";
 import "./style.scss";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
     const { loading, image, error } = useImage("qatar-stadium.png");
     console.log(loading, error); // THIS NEEDS TO BE REMOVED
+    
+    const [classList, setClassList] = useState('hidden player-content');
+    const [dropDownClasses, setDropDownClasses] = useState ('dropdown-img')
+
+    const handleDropDownClick = () => {
+        if (classList === 'hidden player-content') {    
+            setClassList('player-content')
+            setDropDownClasses('rotate dropdown-img');
+            
+            // need to rotate the dropdown image 
+            // add a rotate animation in scss
+            // have a rotate class in scss, which is then added along with 'player-content'
+        } else {
+            setClassList('hidden player-content');
+            setDropDownClasses ('dropdown-img')
+        }
+    }
+
+
 
     return (
         <>
@@ -20,11 +39,12 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
                 <img
                     src={dropdownArrow}
                     alt="A dropdown arrow. Press to view more details about this player"
-                    className="dropdown-img"
+                    className={dropDownClasses}
+                    onClick={handleDropDownClick}
                 />
             </div>
 
-            <section className="player-content">
+            <section className= {classList}>
                 <img src={image ? image : "#"} alt={props.name} className="player-img" />
                 <div className="player-stats">
                     <p>
