@@ -10,10 +10,6 @@
 	height: 25vw;
 	margin: 0;
 	padding: 0;
-	// background-image: url('../../assets/qatar-stadium.png');
-	// background-size: 160%;
-	// background-position: center;
-	// background-repeat: no-repeat;
 	border-radius: 30px;
 	position: relative;
 	cursor: pointer;
@@ -24,10 +20,17 @@
 	&:hover {
 		transform: scale(1.02);
 		opacity: 1;
+		position:absolute;
+		// background-color:#000;
+		z-index: 3 ;
+		// opacity:0.3;
 
 		.nation-horizontal-text {
-			background-color:rgba(41, 50, 65, 0.8);
+			font-size: 30px;
+			display: block;
+			
 		}
+
 	}
 
 	img {
@@ -36,19 +39,54 @@
 		position: absolute;
 		border-radius: 30px;
 	}
-
-	.nation-horizontal-text {
-		@include flex-container(column, center, center); // defined in ../../styles/variables.scss
-		z-index: 1; // This line is apparently important!
-		transition: $transition-time all ease;
-		font-size: 20px;
-		font-weight: bold;
-		color: white;
-		background-color: rgba(41, 50, 65, 0.5);
-		border-radius: 0 0 30px 30px;
-	}
-
 }
+
+.nation-horizontal-text {
+	@include flex-container(column, center, center); // defined in ../../styles/variables.scss
+	z-index: 1; // This line is apparently important!
+	transition: $transition-time all ease;
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	border-radius: 0 0 30px 30px;
+	position: relative;
+	display: inline-block;
+	display: none;
+	margin: 0;
+	padding-bottom: 0;
+	
+}
+
+.nation-horizontal-text::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	transform: scaleX(0);
+	font-size: 30px;
+	height: 2px;
+	bottom: 20px;
+	left: 0;
+	background-color: #ffffff;
+	transform-origin: bottom right;
+	transition: transform 0.25s ease-out;
+  }
+  
+  .nation-horizontal-text:hover::after {
+	transform: scaleX(1);
+	transform-origin: bottom left;
+  }
+
+.modal-container {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 
 @media (max-width: 980px) {
 	.nation-box {
@@ -61,5 +99,19 @@
 	.nation-box {
 		width: 350px;
 		height: 350px;
+	}
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
 	}
 }

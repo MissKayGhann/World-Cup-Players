@@ -1,0 +1,77 @@
+.modal {
+background: rgb(39, 2, 12);
+	background: linear-gradient(0deg, rgba(39, 2, 12, 1) 55%, rgba(137, 11, 45, 1) 100%);
+	color: white;
+	display: flex;
+	flex-direction: column;
+	width: 45rem;
+	height: 45rem;
+	z-index: 3;
+	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+	transition: 0.4s all ease-in-out;
+	overflow: overlay;
+	scrollbar-color: #a23982 #1f1013;
+	
+	
+
+	.modal-close-button {
+		width: 40px;
+		align-self: flex-end;
+		position: absolute;
+		padding: 0 20px;
+		cursor: pointer;
+	}
+
+}
+
+.img-nation {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 10px;
+
+	p {
+		padding: 0 25px 0 15px;
+		text-align: justify;
+	}
+}
+
+.img-nation img {
+    width: 50%;
+    align-self: center;
+}
+
+.img-nation h3 {
+    align-self: center;
+    font-size: 30px;
+		font-weight: bold;
+		margin: 0 0 20px 0;
+}
+
+.modal::-webkit-scrollbar {
+	width: 16px;
+}
+
+.modal::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+	background: #1f1013;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+	background: white;
+}
+
+
+@media (max-width: 800px) {
+	.modal {
+		width: 33rem;
+		height: 33rem;
+	}
+
+	.modal-close-button {
+		padding: 0px;
+	}
+}
