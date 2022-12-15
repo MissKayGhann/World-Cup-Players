@@ -100,3 +100,44 @@ export async function validateTeamId(req: Request, resp: Response, next: NextFun
     req.params.nation = nation;
     next();
 }
+
+/**
+ * Validates the provided `playerName` in the API call's parameters
+ * and sets `req.body.player` to the corresponding player in DyanmoDB.
+ * @param req The API call's request object.
+ * @param resp The API call's response object.
+ * @param next Function that calls the next piece of middleware
+ */
+export async function validatePlayer(req: Request, resp: Response, next: NextFunction) {
+    const matchingPlayers = (
+        await ddbdClient.send(
+            new QueryCommand({
+                TableName: "Players",
+                KeyConditionExpression: "team = :v_nationName and #P = :v_playerName",
+                ExpressionAttributeNames: {
+                    "#P": "name",
+                },
+                ExpressionAttributeValues: {
+                    ":v_nationName": req.params.nation,
+                    ":v_playerName": req.params.playerName,
+                },
+                // When we're on the /photo endpoint we only want to return the player's photo
+                ...(req.path.endsWith("photo") && { ProjectionExpression: "photo" }),
+            })
+        )
+    ).Items as Record<string, string | number>[];
+    if (matchingPlayers.length === 0) {
+        resp.status(404).json([
+            {
+                location: "param",
+                msg: "Player Not Found",
+                param: "player",
+                value: req.params.player,
+            },
+        ]);
+        return;
+    }
+
+    req.body = { ...req.body, ...{ player: matchingPlayers[0] } };
+    next();
+}

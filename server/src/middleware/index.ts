@@ -1,3 +1,3 @@
-import { validateTeamId } from "./teams";
+import { validatePlayer, validateTeamId } from "./teams";
 
-export { validateTeamId };
+export { validatePlayer, validateTeamId };
