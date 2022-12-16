@@ -1,17 +1,20 @@
-interface INationInfo {
+type NationInfo = {
     nation: string;
-    points: number;
+    fifaCode: string;
+    draws: number;
+    totalGoalsScored: number;
+    losses: number;
     flag: string;
-    fifaCode?: string;
-    group?: string;
-    wins?: number;
-    losses?: number;
-    draws?: number;
-    cleanSheets?: number;
-    totalGoalsScored?: number;
-    totalGoalsConceived?: number;
-    totalRedCards?: number;
-    totalYellowCards?: number;
+    cleanSheets: number;
+    points: number;
+    totalGoalsConceived: number;
+    totalRedCards: number;
+    totalYellowCards: number;
+    wins: number;
+};
+
+interface INationProps {
+    props: NationInfo;
 }
 
 type PlayerInfo = {
@@ -35,4 +38,4 @@ interface IPlayerProps {
     props: PlayerInfo;
 }
 
-export type { INationInfo, IPlayerProps, PlayerInfo };
+export type { INationProps, NationInfo, IPlayerProps, PlayerInfo };

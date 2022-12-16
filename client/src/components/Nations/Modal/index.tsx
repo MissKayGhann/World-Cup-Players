@@ -1,14 +1,14 @@
 import Player from "./Player";
 import { useState, useEffect } from "react";
 import "./style.scss";
-import { INationInfo, IPlayerProps, PlayerInfo } from "../../../types";
+import { NationInfo, IPlayerProps, PlayerInfo } from "../../../types";
 import useImage from "../../../utils/useImage";
 import closeButton from "../../../assets/close-button.svg";
 import getPlayersFromNation from "../../../utils/getPlayers";
 
 interface IModalProps {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-    nationInfo: INationInfo;
+    nationInfo: NationInfo;
 }
 
 const Modal = ({ setOpenModal, nationInfo }: IModalProps): JSX.Element => {
