@@ -7,7 +7,7 @@ import {
     PlayerKeysFromDynamoDB,
     PlayerName,
 } from "./types";
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { ddbdClient } from "../lib";
 
 if (process.env.FUT_API_KEY === undefined) {
@@ -23,8 +23,8 @@ export async function fetchPlayerNamesAndTeams() {
     const nationToPlayers: Record<Nation, PlayerName[]> = {};
 
     const data = await ddbdClient.send(
-        new QueryCommand({
-            TableName: "players",
+        new ScanCommand({
+            TableName: "Players",
             ProjectionExpression: "team, #N",
             ExpressionAttributeNames: { "#N": "name" },
         })
@@ -77,7 +77,9 @@ export async function fetchNationToIdMapping(nations: Set<string>) {
         // each nation is a nation that we need to store the ID of
         for (let nation of json.items as NationFromAPI[]) {
             if (nationToId[nation.name] !== undefined) continue; // we've already stored the id of this nation
-            if (nations.has(nation.name)) {
+
+            // The API uses "Korea Republic" instead of "South Korea"
+            if (nations.has(nation.name === "Korea Republic" ? "South Korea" : nation.name)) {
                 // This is a nation that we need the id of
                 nationToId[nation.name] = nation.id;
                 nationsFound++;
