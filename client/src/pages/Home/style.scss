@@ -1,0 +1,17 @@
+@import "../../styles/variables.scss";
+
+.main-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+
+.main {
+	
+	.nations-container {
+		display: grid;
+		grid-template-columns: auto auto auto;
+		justify-content: space-evenly;
+		grid-row-gap: 30px;
+	}
+}

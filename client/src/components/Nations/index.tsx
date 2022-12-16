@@ -1,27 +1,31 @@
 import Modal from "./Modal";
 import useImage from "../../utils/useImage";
-import { useState } from "react";
-import { INationInfo } from "../../types";
+import { FC, useState } from "react";
+import { INationProps } from "../../types";
 import "./style.scss";
 
-interface INationProps {
-    nation: string;
-    imgFileName: string;
-}
-
-const Nations = ({ nation, imgFileName }: INationProps): JSX.Element => {
-    const { loading, image, error } = useImage(imgFileName);
+const Nations: FC<INationProps> = ({ props }: INationProps): JSX.Element => {
+    const { loading, image, error } = useImage(props.flag);
 
     const [openModal, setOpenModal] = useState(false);
 
-    let nationInfo: INationInfo = {
-        nation: "Qatar",
-        points: 12,
-        flag: "../../assets/qatar-stadium.png",
-    }; // dummy data for now – todo: grab nation-specific info from db (stats)
+    // let nationInfo: NationInfo = {
+    //     nation: "Qatar",
+    //     fifaCode: "QAT",
+    //     draws: 0,
+    //     totalGoalsScored: 2,
+    //     losses: 10,
+    //     flag: "../../assets/qatar-stadium.png",
+    //     cleanSheets: 0,
+    //     points: -12,
+    //     totalGoalsConceived: 9001,
+    //     totalRedCards: 2,
+    //     totalYellowCards: 4,
+    //     wins: 0,
+    // }; // dummy data for now – todo: grab nation-specific info from db (stats)
 
     return (
-        <div className="">
+        <>
             <div
                 className="nation-box"
                 onClick={() => setOpenModal(true)}
@@ -38,16 +42,16 @@ const Nations = ({ nation, imgFileName }: INationProps): JSX.Element => {
                 }
             >
                 <div className="nation-horizontal-text">
-                    <p>{nation}</p>
+                    <p>{props.nation}</p>
                 </div>
             </div>
 
             {openModal && (
                 <div className="modal-container">
-                    <Modal setOpenModal={setOpenModal} nationInfo={nationInfo} />
+                    <Modal setOpenModal={setOpenModal} nationInfo={props} />
                 </div>
             )}
-        </div>
+        </>
     );
 };
 

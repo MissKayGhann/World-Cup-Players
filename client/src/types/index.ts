@@ -1,38 +1,41 @@
-interface INationInfo {
+type NationInfo = {
     nation: string;
-    points: number;
+    fifaCode: string;
+    draws: number;
+    totalGoalsScored: number;
+    losses: number;
     flag: string;
-    fifaCode?: string;
-    group?: string;
-    wins?: number;
-    losses?: number;
-    draws?: number;
-    cleanSheets?: number;
-    totalGoalsScored?: number;
-    totalGoalsConceived?: number;
-    totalRedCards?: number;
-    totalYellowCards?: number;
+    cleanSheets: number;
+    points: number;
+    totalGoalsConceived: number;
+    totalRedCards: number;
+    totalYellowCards: number;
+    wins: number;
+};
+
+interface INationProps {
+    props: NationInfo;
 }
 
 type PlayerInfo = {
-    team: string;
-    name: string;
-    dob: string;
-    photo: string;
-    shirtNumber: number;
-    position: string;
-    goalsScored: number;
-    assists: number;
-    yellowCards: number;
-    redCards: number;
     manOfMatchCount: number;
     capsForNation: number;
     goalsForNation: number;
+    assists: number;
     club: string;
+    goals: number;
+    yellowCards: number;
+    name: string;
+    redCards: number;
+    shirtNumber: number;
+    dob: string;
+    team: string;
+    position: string;
+    photo: string;
 };
 
 interface IPlayerProps {
     props: PlayerInfo;
 }
 
-export type { INationInfo, IPlayerProps };
+export type { INationProps, NationInfo, IPlayerProps, PlayerInfo };
