@@ -11,11 +11,24 @@ interface IModalProps {
     nationInfo: NationInfo;
 }
 
+// defining position priority for sort fn in useEffect()
+const positionsOrder = {
+    GK: 1,
+    DF: 2,
+    MF: 3,
+    FW: 4,
+};
+
 const Modal = ({ setOpenModal, nationInfo }: IModalProps): JSX.Element => {
     const [players, setPlayers] = useState<PlayerInfo[]>([]);
 
     useEffect(() => {
         getPlayersFromNation(nationInfo.nation).then(e => {
+            e.sort(
+                (a, b) =>
+                    positionsOrder[a.position as keyof object] -
+                    positionsOrder[b.position as keyof object]
+            );
             setPlayers(e);
         });
     }, []);
