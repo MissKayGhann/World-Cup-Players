@@ -28,6 +28,25 @@ const playerProps: IPlayerProps = {
     },
 };
 
+// const playerProps2: IPlayerProps = {
+//     props: {
+//         team: "England",
+//         name: "Harry Kane",
+//         dob: "01/01/0000",
+//         photo: "qatar-stadium.png",
+//         shirtNumber: 9,
+//         position: "ST",
+//         goalsScored: 1,
+//         assists: 2,
+//         yellowCards: 2,
+//         redCards: 12,
+//         manOfMatchCount: -2,
+//         capsForNation: 4,
+//         goalsForNation: 1,
+//         club: "Tottenham Hotspur",
+//     },
+// };
+
 const Modal = ({ setOpenModal, nationInfo }: IModalProps): JSX.Element => {
     console.log("../" + nationInfo.flag);
     const { loading, image, error } = useImage("qatar-stadium.png");

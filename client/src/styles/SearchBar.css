@@ -1,0 +1,25 @@
+.search-box {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-btn {
+     height: 97%;
+    flex: 1;
+    border: hidden;
+    margin-top: 0.1rem;
+    width: 2.5vw;
+}
+
+.search-input {
+    height: 5.1vh;
+    margin-top: 0.1rem;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: hidden;
+}
+
+.search-div {
+    display: flex;
+    align-items: center;
+}
