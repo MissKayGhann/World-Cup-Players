@@ -1,8 +1,9 @@
 import express from "express";
+import cors from "cors";
 import { teamsRouter } from "./routes";
 
 const app = express();
-app.use(express.json());
+app.use(express.json(), cors());
 
 app.use("/teams", teamsRouter);
 
