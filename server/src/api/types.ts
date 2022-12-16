@@ -27,3 +27,14 @@ export interface APINation {
     pagination: PaginationInfo;
     items: NationFromAPI[];
 }
+
+export interface PlayerFromAPI {
+    name: string
+    id: number
+    nation: number
+}
+
+export interface APIPlayer {
+    pagination: PaginationInfo;
+    items: (Record<string, any> & PlayerFromAPI)[]
+}

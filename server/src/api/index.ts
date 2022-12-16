@@ -1,6 +1,7 @@
 import "isomorphic-fetch";
 import {
     APINation,
+    APIPlayer,
     Nation,
     NationFromAPI,
     Player,
@@ -100,8 +101,57 @@ export async function fetchPlayerToIdMapping(
     nationToId: Record<Nation, number>,
     nationToPlayerNames: Record<Nation, PlayerName[]>
 ) {
-    console.log("fetchPlayingToIdMapping", nationToId, nationToPlayerNames);
-    return {}; // dummy return value
+    let nationToPlayers: Record<Nation, Player[]> = {};
+
+    let page = 1;
+    let maxPage = 1;
+    let playersFound = 0;
+
+    // Keep making API requests to the next page until either
+    // - we run out of pages (raises an error)
+    // - we have all 831 player IDs that we need (will then return them)
+    while (playersFound !== 831) {
+        if (page > maxPage) {
+            // This *should* never happen, but we handle it just in case
+            throw new Error(`Exceeded page limit of ${maxPage} when trying to find players`);
+        }
+
+        const resp = await fetch(`https://futdb.app/api/players?page=${page}`, {
+            headers: { "X-AUTH-TOKEN": process.env.FUT_API_KEY as string },
+        });
+        const json: APIPlayer = await resp.json();
+
+        if (page === 1) {
+            // First request, so set `maxPage` to the actual value
+            maxPage = json.pagination.pageTotal;
+        }
+
+        for (let player of json.items) {
+            for (let [nation, nationId] of Object.entries(nationToId)) {
+                if (player.nation === nationId) {
+                    // Player belongs to this nation's team
+                    for (let storedPlayerName of nationToPlayerNames[
+                        // The API uses "Korea Republic" instead of "South Korea"
+                        nation === "Korea Republic" ? "South Korea" : nation
+                    ]) {
+                        if (storedPlayerName === player.name) {
+                            // We need this player's id
+                            if (nationToPlayers[nation] === undefined) {
+                                // Nation hasn't been seen
+                                nationToPlayers[nation] = [{ name: player.name, id: player.id }];
+                            } else {
+                                // The nation has been seen
+                                nationToPlayers[nation].push({ name: player.name, id: player.id });
+                            }
+                            playersFound++;
+                        }
+                    }
+                }
+            }
+        }
+        page++;
+    }
+    return nationToPlayers;
 }
 
 /**
@@ -152,8 +202,6 @@ async function storePlayerPhoto(nation: string, player: string, photo: any) {
  * @param nationToPlayers A mapping of a nation to its players.
  */
 export async function fetchAndStorePlayerPhotos(nationToPlayers: Record<Nation, Player[]>) {
-    console.log("fetchAndStorePlayerPhotos", nationToPlayers);
-
     for (let [nation, players] of Object.entries(nationToPlayers)) {
         for (let player of players) {
             const photo = getPlayerPhoto(player.id);
