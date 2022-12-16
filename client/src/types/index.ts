@@ -15,24 +15,24 @@ interface INationInfo {
 }
 
 type PlayerInfo = {
-    team: string;
-    name: string;
-    dob: string;
-    photo: string;
-    shirtNumber: number;
-    position: string;
-    goalsScored: number;
-    assists: number;
-    yellowCards: number;
-    redCards: number;
     manOfMatchCount: number;
     capsForNation: number;
     goalsForNation: number;
+    assists: number;
     club: string;
+    goals: number;
+    yellowCards: number;
+    name: string;
+    redCards: number;
+    shirtNumber: number;
+    dob: string;
+    team: string;
+    position: string;
+    photo: string;
 };
 
 interface IPlayerProps {
     props: PlayerInfo;
 }
 
-export type { INationInfo, IPlayerProps };
+export type { INationInfo, IPlayerProps, PlayerInfo };

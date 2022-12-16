@@ -6,26 +6,23 @@ import { FC, useState } from "react";
 
 const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
     const { loading, image, error } = useImage("qatar-stadium.png");
-    console.log(loading, error); // THIS NEEDS TO BE REMOVED
-    
-    const [classList, setClassList] = useState('hidden player-content');
-    const [dropDownClasses, setDropDownClasses] = useState ('dropdown-img')
+
+    const [classList, setClassList] = useState("hidden player-content");
+    const [dropDownClasses, setDropDownClasses] = useState("dropdown-img");
 
     const handleDropDownClick = () => {
-        if (classList === 'hidden player-content') {    
-            setClassList('player-content')
-            setDropDownClasses('rotate dropdown-img');
-            
-            // need to rotate the dropdown image 
+        if (classList === "hidden player-content") {
+            setClassList("player-content");
+            setDropDownClasses("rotate dropdown-img");
+
+            // need to rotate the dropdown image
             // add a rotate animation in scss
             // have a rotate class in scss, which is then added along with 'player-content'
         } else {
-            setClassList('hidden player-content');
-            setDropDownClasses ('dropdown-img')
+            setClassList("hidden player-content");
+            setDropDownClasses("dropdown-img");
         }
-    }
-
-
+    };
 
     return (
         <>
@@ -44,14 +41,18 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
                 />
             </div>
 
-            <section className= {classList}>
-                <img src={image ? image : "#"} alt={props.name} className="player-img" />
+            <section className={classList}>
+                <img
+                    src={error || loading ? "#" : image ? image : "#"} // if error or loading, use #. else if image, use image. else, use #.
+                    alt={props.name}
+                    className="player-img"
+                />
                 <div className="player-stats">
                     <p>
                         {props.name}'s statistics for {props.team} in 2022:
                     </p>
                     <ul>
-                        <li>Goals scored: {props.goalsScored}</li>
+                        <li>Goals scored: {props.goalsForNation}</li>
                         <li>Assists: {props.assists}</li>
                         <li>Yellow cards: {props.yellowCards}</li>
                         <li>Red cards: {props.redCards}</li>
