@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+
+.stats-summary-container {
+	@include flex-container(column-reverse, center, center);
+	background: rgb(83, 0, 80);
+	background: linear-gradient(0deg, rgb(64, 0, 62) 0%, rgb(66, 46, 70) 100%);
+	width: 100px;
+	height: 100px;
+	padding: 0 10px;
+
+	& > * {
+		margin: 0;
+		width: 100%;
+	}
+
+	.player-stat {
+		color: rgb(173, 173, 173);
+		font-style: italic;
+		text-align: center;
+		padding: 0;
+	}
+
+	.player-stat-value {
+		font-size: 30px;
+		padding: 0;
+		text-align: center;
+		height: 40%;
+	}
+}
