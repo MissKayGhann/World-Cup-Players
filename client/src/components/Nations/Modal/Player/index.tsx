@@ -50,7 +50,7 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
                 />
                 <div className="player-stats players-grid">
                     {/* 9 stats to show:
-                        position, goals, assists, yellows, reds, manofmatch, caps, nationGoals, club
+                        position, shirtNumber, goals, assists, yellows, reds, manOfMatch, caps, nationGoals
                     */}
 
                     <StatsSummary stat={"Position"} value={props.position} />
