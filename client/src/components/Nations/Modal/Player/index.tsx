@@ -55,12 +55,12 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
 
                     <StatsSummary stat={"Position"} value={props.position} />
                     <StatsSummary stat={"Shirt Number"} value={props.shirtNumber} />
+                    <StatsSummary stat={"Appearances"} value={props.capsForNation} />
                     <StatsSummary stat={"Goals Scored"} value={props.goals} />
                     <StatsSummary stat={"Assists"} value={props.assists} />
+                    <StatsSummary stat={"Man of Match"} value={props.manOfMatchCount} />
                     <StatsSummary stat={"Yellow Cards"} value={props.yellowCards} />
                     <StatsSummary stat={"Red Cards"} value={props.redCards} />
-                    <StatsSummary stat={"Man of Match awards"} value={props.manOfMatchCount} />
-                    <StatsSummary stat={"Appearances"} value={props.capsForNation} />
                     <StatsSummary stat={`Goals for ${props.team}`} value={props.goalsForNation} />
                 </div>
             </section>

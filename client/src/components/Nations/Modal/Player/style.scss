@@ -46,8 +46,10 @@
 	display: grid;
 	grid-template-columns: auto auto auto;
 	grid-column-gap: 0px;
+	grid-row-gap: 5px;
 	justify-content: center;
-	width: 100%;
+	align-content: center;
+	flex-grow: 1;
 }
 
 .hidden {
