@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import SearchBar from "../../components/SearchBar";
 
-const Results = () => {
+interface IResultsProps {
+    props: {
+        setRoute: React.Dispatch<React.SetStateAction<string>>;
+    };
+}
+
+const Results: FC<IResultsProps> = ({ props }): JSX.Element => {
     const [showResults, _] = useState<boolean>(true);
 
     return (
         <>
-            <SearchBar results={showResults} />
+            <SearchBar setRoute={props.setRoute} results={showResults} />
         </>
     );
 };

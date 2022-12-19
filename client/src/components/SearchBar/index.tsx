@@ -1,12 +1,16 @@
 import "./style.scss";
 
 interface ISearchBarProps {
+    setRoute: React.Dispatch<React.SetStateAction<string>>;
     results?: boolean;
 }
 
-const SearchBar = ({ results }: ISearchBarProps): JSX.Element => {
+const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // preventing form from submitting (that's kinda trippy to read lol)
+
+        setRoute("result");
+        console.log("success from me");
 
         // logic for submitting form goes here:
         console.log(e);
