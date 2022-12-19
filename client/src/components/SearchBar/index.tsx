@@ -1,4 +1,6 @@
 import "./style.scss";
+import SearchResult from "../SearchResult";
+import { ISearchResultProps } from "../../types/";
 
 interface ISearchBarProps {
     setRoute: React.Dispatch<React.SetStateAction<string>>;
@@ -7,6 +9,7 @@ interface ISearchBarProps {
 
 const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        // add search result to localStorage/cookies
         e.preventDefault(); // preventing form from submitting (that's kinda trippy to read lol)
 
         setRoute("result");
@@ -14,6 +17,13 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
 
         // logic for submitting form goes here:
         console.log(e);
+    };
+
+    const searchResultProps: ISearchResultProps = {
+        props: {
+            content: "This is an interesting sentence",
+            recentlySearched: true,
+        },
     };
 
     return (
@@ -67,7 +77,7 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
                         results ? "search-results-container" : "search-results-container hidden"
                     }
                 >
-                    HELLOW MY NAME I SJ EFF
+                    <SearchResult props={searchResultProps.props} />
                 </div>
             </div>
         </>

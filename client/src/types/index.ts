@@ -48,6 +48,13 @@ interface IStatsSummaryProps {
     value: string | number;
 }
 
+interface ISearchResultProps {
+    props: {
+        content: string;
+        recentlySearched?: boolean;
+    };
+}
+
 export type {
     INationProps,
     NationInfo,
@@ -55,4 +62,5 @@ export type {
     PlayerInfo,
     IStatsSummaryProps,
     StatsSummaryType,
+    ISearchResultProps,
 };
