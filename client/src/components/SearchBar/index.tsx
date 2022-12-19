@@ -1,6 +1,10 @@
 import "./style.scss";
 
-const SearchBar = (): JSX.Element => {
+interface ISearchBarProps {
+    results?: boolean;
+}
+
+const SearchBar = ({ results }: ISearchBarProps): JSX.Element => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // preventing form from submitting (that's kinda trippy to read lol)
 
@@ -15,8 +19,9 @@ const SearchBar = (): JSX.Element => {
                     <input
                         type="text"
                         placeholder="Press enter key to search"
-                        className="search-input"
+                        className={"search-input" + (results ? " results-border" : "")}
                     />
+
                     <select name="filter-search" id="search-dropdown" defaultValue="filterBy">
                         <option value="filterBy" disabled>
                             Filter by:
@@ -44,8 +49,19 @@ const SearchBar = (): JSX.Element => {
                         placeholder="max"
                         min={1}
                     />
-                    <input type="submit" className="search-img" value="" />
+                    <input
+                        type="submit"
+                        className={"search-img" + (results ? " results-border-2" : "")}
+                        value=""
+                    />
                 </form>
+                <div
+                    className={
+                        results ? "search-results-container" : "search-results-container hidden"
+                    }
+                >
+                    HELLOW MY NAME I SJ EFF
+                </div>
             </div>
         </>
     );
