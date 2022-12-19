@@ -1,7 +1,7 @@
-import dropdownArrow from "../../../../assets/dropdown-arrow.svg";
-import useImage from "../../../../utils/useImage";
-import StatsSummary from "../../../StatsSummary";
-import { IPlayerProps } from "../../../../types";
+import dropdownArrow from "../../assets/dropdown-arrow.svg";
+import useImage from "../../utils/useImage";
+import StatsSummary from "../StatsSummary";
+import { IPlayerProps } from "../../types";
 import "./style.scss";
 import { FC, useState } from "react";
 

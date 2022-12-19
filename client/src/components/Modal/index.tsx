@@ -1,10 +1,10 @@
-import Player from "./Player";
+import Player from "../Player";
 import { useState, useEffect } from "react";
 import "./style.scss";
-import { NationInfo, IPlayerProps, PlayerInfo } from "../../../types";
-import useImage from "../../../utils/useImage";
-import closeButton from "../../../assets/close-button.svg";
-import getPlayersFromNation from "../../../utils/getPlayers";
+import { NationInfo, IPlayerProps, PlayerInfo } from "../../types";
+import useImage from "../../utils/useImage";
+import closeButton from "../../assets/close-button.svg";
+import getPlayersFromNation from "../../utils/getPlayers";
 
 interface IModalProps {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;

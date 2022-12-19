@@ -1,4 +1,4 @@
-import Modal from "./Modal";
+import Modal from "../Modal";
 import useImage from "../../utils/useImage";
 import { FC, useState } from "react";
 import { INationProps } from "../../types";
