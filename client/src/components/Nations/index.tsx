@@ -9,21 +9,6 @@ const Nations: FC<INationProps> = ({ props }: INationProps): JSX.Element => {
 
     const [openModal, setOpenModal] = useState(false);
 
-    // let nationInfo: NationInfo = {
-    //     nation: "Qatar",
-    //     fifaCode: "QAT",
-    //     draws: 0,
-    //     totalGoalsScored: 2,
-    //     losses: 10,
-    //     flag: "../../assets/qatar-stadium.png",
-    //     cleanSheets: 0,
-    //     points: -12,
-    //     totalGoalsConceived: 9001,
-    //     totalRedCards: 2,
-    //     totalYellowCards: 4,
-    //     wins: 0,
-    // }; // dummy data for now – todo: grab nation-specific info from db (stats)
-
     return (
         <>
             <div

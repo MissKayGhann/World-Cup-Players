@@ -38,4 +38,21 @@ interface IPlayerProps {
     props: PlayerInfo;
 }
 
-export type { INationProps, NationInfo, IPlayerProps, PlayerInfo };
+type StatsSummaryType = {
+    stat: string;
+    value: string | number;
+};
+
+interface IStatsSummaryProps {
+    stat: string;
+    value: string | number;
+}
+
+export type {
+    INationProps,
+    NationInfo,
+    IPlayerProps,
+    PlayerInfo,
+    IStatsSummaryProps,
+    StatsSummaryType,
+};

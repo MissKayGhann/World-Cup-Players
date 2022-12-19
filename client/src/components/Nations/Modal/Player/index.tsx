@@ -1,5 +1,6 @@
 import dropdownArrow from "../../../../assets/dropdown-arrow.svg";
 import useImage from "../../../../utils/useImage";
+import StatsSummary from "../../../StatsSummary";
 import { IPlayerProps } from "../../../../types";
 import "./style.scss";
 import { FC, useState } from "react";
@@ -47,24 +48,20 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
                     alt={props.name}
                     className="player-img"
                 />
-                <div className="player-stats">
-                    <p>
-                        {props.name}'s statistics for {props.team} in 2022:
-                    </p>
-                    <ul>
-                        <li>Goals scored: {props.goalsForNation}</li>
-                        <li>Assists: {props.assists}</li>
-                        <li>Yellow cards: {props.yellowCards}</li>
-                        <li>Red cards: {props.redCards}</li>
-                        <li>Man of the match count: {props.manOfMatchCount}</li>
-                        <li>
-                            Appearances for {props.team}: {props.capsForNation}
-                        </li>
-                        <li>
-                            Goals for {props.team}: {props.goalsForNation}
-                        </li>
-                        <li>Club: {props.club}</li>
-                    </ul>
+                <div className="player-stats players-grid">
+                    {/* 9 stats to show:
+                        position, shirtNumber, goals, assists, yellows, reds, manOfMatch, caps, nationGoals
+                    */}
+
+                    <StatsSummary stat={"Position"} value={props.position} />
+                    <StatsSummary stat={"Shirt Number"} value={props.shirtNumber} />
+                    <StatsSummary stat={"Appearances"} value={props.capsForNation} />
+                    <StatsSummary stat={"Goals Scored"} value={props.goals} />
+                    <StatsSummary stat={"Assists"} value={props.assists} />
+                    <StatsSummary stat={"Man of Match"} value={props.manOfMatchCount} />
+                    <StatsSummary stat={"Yellow Cards"} value={props.yellowCards} />
+                    <StatsSummary stat={"Red Cards"} value={props.redCards} />
+                    <StatsSummary stat={`Goals for ${props.team}`} value={props.goalsForNation} />
                 </div>
             </section>
         </>
