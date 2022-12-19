@@ -1,9 +1,11 @@
 import "../styles/QatarBanner.css";
+import SearchBar from "./SearchBar";
 
 const QatarBanner = (): JSX.Element => {
     return (
         <>
-            <section>
+            <section className="qatar-banner-container">
+                <SearchBar />
                 <div className="banner-box">
                     <h1 className="fifa">FIFA WORLD CUP</h1>
                     <h1 className="qatar">QATAR 2022</h1>
