@@ -18,6 +18,9 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
 
     return (
         <>
+            <button className="home-btn" onClick={() => setRoute("home")}>
+                HOME
+            </button>
             <div className="search-div">
                 <form className="search-form" onSubmit={e => handleSubmit(e)}>
                     <input
