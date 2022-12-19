@@ -12,7 +12,6 @@ const SearchBar = (): JSX.Element => {
         <>
             <div className="search-div">
                 <form className="search-form" onSubmit={e => handleSubmit(e)}>
-                    <input type="submit" className="search-img" value="" />
                     <input
                         type="text"
                         placeholder="Press enter key to search"
@@ -45,6 +44,7 @@ const SearchBar = (): JSX.Element => {
                         placeholder="max"
                         min={1}
                     />
+                    <input type="submit" className="search-img" value="" />
                 </form>
             </div>
         </>
