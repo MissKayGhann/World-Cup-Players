@@ -1,4 +1,5 @@
 import "./style.scss";
+import { useEffect, useRef, useState } from "react";
 import SearchResult from "../SearchResult";
 import { ISearchResultProps } from "../../types/";
 
@@ -8,23 +9,24 @@ interface ISearchBarProps {
 }
 
 const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        // add search result to localStorage/cookies
-        e.preventDefault(); // preventing form from submitting (that's kinda trippy to read lol)
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [formSubmitCount, setFormSubmitCount] = useState<number>(0);
 
-        setRoute("results");
-        console.log("success from me");
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); // preventing form from submitting (that's kinda trippy to read lol)
+        setFormSubmitCount(formSubmitCount + 1);
+
+        // making sure the input is not empty before submit
+        if (inputRef.current?.value && localStorage.length < 5) {
+            localStorage.setItem(localStorage.length.toString(), inputRef.current?.value);
+        }
+        setRoute("results"); // moving to results page
 
         // logic for submitting form goes here:
-        console.log(e);
+        // console.log(e);
     };
 
-    const searchResultProps: ISearchResultProps = {
-        props: {
-            content: "This is an interesting sentence",
-            recentlySearched: true,
-        },
-    };
+    useEffect(() => {}, [formSubmitCount]);
 
     return (
         <>
@@ -37,6 +39,7 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
                         type="text"
                         placeholder="Press enter key to search"
                         className={"search-input" + (results ? " results-border" : "")}
+                        ref={inputRef}
                     />
 
                     <select name="filter-search" id="search-dropdown" defaultValue="filterBy">
@@ -77,7 +80,15 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
                         results ? "search-results-container" : "search-results-container hidden"
                     }
                 >
-                    <SearchResult props={searchResultProps.props} />
+                    {Object.keys(localStorage).map((key, index) => {
+                        // Looping over localStorage and generating components accordingly
+                        let value = localStorage.getItem(key);
+                        value = value ? value : "";
+                        const searchResultProps: ISearchResultProps = {
+                            props: { content: value, recentlySearched: true },
+                        };
+                        return <SearchResult props={searchResultProps.props} key={index} />;
+                    })}
                 </div>
             </div>
         </>

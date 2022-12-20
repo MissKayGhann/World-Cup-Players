@@ -8,10 +8,6 @@ import { useEffect, useState } from "react";
 function App(): JSX.Element {
     const [route, setRoute] = useState<string>("home");
 
-    useEffect(() => {
-        handleRoute();
-    }, [route]);
-
     const routeProps = { props: { setRoute: setRoute } };
 
     const handleRoute = () => {
@@ -23,6 +19,10 @@ function App(): JSX.Element {
             return <ErrorPage404 setRoute={setRoute} />;
         }
     };
+
+    useEffect(() => {
+        handleRoute();
+    }, []);
 
     return (
         <div className="App">
