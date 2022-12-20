@@ -4,21 +4,35 @@ import Home from "./pages/Home";
 import Results from "./pages/Results";
 import ErrorPage404 from "./pages/ErrorPage404";
 import { useEffect, useState } from "react";
+import { IPageProps, ResultsProps, NationInfo, DisplayInfo, Query, PlayerInfo } from "./types";
+import getNations from "./utils/getNations";
 
 function App(): JSX.Element {
+    const [nations, setNations] = useState<NationInfo[]>([]);
     const [route, setRoute] = useState<string>("home");
+    const [query, setQuery] = useState<Query>({ query: "", filterBy: "", min: 0, max: 32 });
 
-    const routeProps = { props: { setRoute: setRoute } };
+    const routeStates = { setRoute: setRoute, setQuery: setQuery };
+    const routeProps: IPageProps = { props: { ...routeStates } };
+    const displayPageProps: ResultsProps & DisplayInfo = {
+        props: { ...routeStates, query: query, nations: nations },
+    };
 
     const handleRoute = () => {
         if (route === "home") {
-            return <Home props={routeProps.props} />;
+            return <Home props={displayPageProps.props} />;
         } else if (route === "results") {
-            return <Results props={routeProps.props} />;
+            return <Results props={displayPageProps.props} />;
         } else {
-            return <ErrorPage404 setRoute={setRoute} />;
+            return <ErrorPage404 props={routeProps.props} />;
         }
     };
+
+    useEffect(() => {
+        getNations()
+            .then(e => e.sort((a, b) => (a.nation > b.nation ? 1 : -1)))
+            .then(e => setNations(e));
+    }, []);
 
     useEffect(() => {
         handleRoute();

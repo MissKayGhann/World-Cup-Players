@@ -1,18 +1,30 @@
 import { FC, useState } from "react";
 import SearchBar from "../../components/SearchBar";
+import { ResultsProps } from "../../types";
 
-interface IResultsProps {
-    props: {
-        setRoute: React.Dispatch<React.SetStateAction<string>>;
-    };
-}
+const Results: FC<ResultsProps> = ({ props }): JSX.Element => {
+    // Change showResults to false to hide recentSearches
+    const [showRecents, _] = useState<boolean>(true);
 
-const Results: FC<IResultsProps> = ({ props }): JSX.Element => {
-    const [showResults, _] = useState<boolean>(true);
+    // const filteredResults = props.nations.filter(n => n.
 
+    const filterResults = () =>  {
+        switch (props.query.filterBy) {
+            case "goals":
+                props.nations.filter(n => n.
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    const searchBarProps = { ...props, results: !showRecents };
     return (
         <>
-            <SearchBar setRoute={props.setRoute} results={showResults} />
+            <SearchBar props={searchBarProps} />
+            <div className="results-container">
+            </div>
         </>
     );
 };

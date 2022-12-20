@@ -1,14 +1,13 @@
 import "./style.scss";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SearchResult from "../SearchResult";
-import { ISearchResultProps } from "../../types/";
+import { IPageProps, ISearchResultProps } from "../../types/";
 
-interface ISearchBarProps {
-    setRoute: React.Dispatch<React.SetStateAction<string>>;
-    results?: boolean;
-}
+type SearchBarProps = IPageProps & {
+    props: { results?: boolean };
+};
 
-const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
+const SearchBar = ({ props }: SearchBarProps): JSX.Element => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [formSubmitCount, setFormSubmitCount] = useState<number>(0);
 
@@ -20,17 +19,17 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
         if (inputRef.current?.value && localStorage.length < 5) {
             localStorage.setItem(localStorage.length.toString(), inputRef.current?.value);
         }
-        setRoute("results"); // moving to results page
+        props.setRoute("results"); // moving to results page
 
         // logic for submitting form goes here:
         // console.log(e);
     };
 
-    useEffect(() => {}, [formSubmitCount]);
+    useEffect(() => {}, [formSubmitCount, props.results]);
 
     return (
         <>
-            <button className="home-btn" onClick={() => setRoute("home")}>
+            <button className="home-btn" onClick={() => props.setRoute("home")}>
                 HOME
             </button>
             <div className="search-div">
@@ -38,7 +37,7 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
                     <input
                         type="text"
                         placeholder="Press enter key to search"
-                        className={"search-input" + (results ? " results-border" : "")}
+                        className={"search-input" + (props.results ? " results-border" : "")}
                         ref={inputRef}
                     />
 
@@ -71,13 +70,15 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
                     />
                     <input
                         type="submit"
-                        className={"search-img" + (results ? " results-border-2" : "")}
+                        className={"search-img" + (props.results ? " results-border-2" : "")}
                         value=""
                     />
                 </form>
                 <div
                     className={
-                        results ? "search-results-container" : "search-results-container hidden"
+                        props.results
+                            ? "search-results-container"
+                            : "search-results-container hidden"
                     }
                 >
                     {Object.keys(localStorage).map((key, index) => {

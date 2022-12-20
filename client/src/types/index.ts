@@ -55,6 +55,33 @@ interface ISearchResultProps {
     };
 }
 
+type DisplayInfo = IPageProps & {
+    props: {
+        nations: NationInfo[];
+        players: PlayerInfo[];
+    };
+};
+
+interface IPageProps {
+    props: {
+        setRoute: React.Dispatch<React.SetStateAction<string>>;
+        setQuery: React.Dispatch<React.SetStateAction<Query>>;
+    };
+}
+
+type Query = {
+    query: string;
+    filterBy: string;
+    min: number;
+    max: number;
+};
+
+type ResultsProps = DisplayInfo & {
+    props: {
+        query: Query;
+    };
+};
+
 export type {
     INationProps,
     NationInfo,
@@ -63,4 +90,8 @@ export type {
     IStatsSummaryProps,
     StatsSummaryType,
     ISearchResultProps,
+    IPageProps,
+    ResultsProps,
+    DisplayInfo,
+    Query,
 };
