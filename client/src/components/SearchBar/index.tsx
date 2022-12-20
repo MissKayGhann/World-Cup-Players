@@ -12,7 +12,7 @@ const SearchBar = ({ setRoute, results }: ISearchBarProps): JSX.Element => {
         // add search result to localStorage/cookies
         e.preventDefault(); // preventing form from submitting (that's kinda trippy to read lol)
 
-        setRoute("result");
+        setRoute("results");
         console.log("success from me");
 
         // logic for submitting form goes here:
