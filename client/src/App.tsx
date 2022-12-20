@@ -6,7 +6,7 @@ import ErrorPage404 from "./pages/ErrorPage404";
 import { useEffect, useState } from "react";
 
 function App(): JSX.Element {
-    const [route, setRoute] = useState<string>("dasf");
+    const [route, setRoute] = useState<string>("home");
 
     useEffect(() => {
         handleRoute();
@@ -27,11 +27,6 @@ function App(): JSX.Element {
     return (
         <div className="App">
             <Background />
-
-            {/*
-                using ternary operator – if route === "home", return Home component.
-                else return Results component
-            */}
             {handleRoute()}
         </div>
     );
