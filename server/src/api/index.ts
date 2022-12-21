@@ -1,3 +1,88 @@
+import apiData from "../output.json";
+
+import { ddbdClient } from "../lib";
+import { TeamName, Player } from "./types";
+import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+
+async function getMatchingDynamoDBPlayers(dob: string, team: TeamName) {
+    return (
+        await ddbdClient.send(
+            new QueryCommand({
+                TableName: "Players",
+                IndexName: "dob-team-index",
+                ProjectionExpression: "team,#N,dob",
+                ExpressionAttributeNames: { "#N": "name" },
+                KeyConditionExpression: "dob = :v_dob and team = :v_team",
+                ExpressionAttributeValues: {
+                    ":v_dob": dob,
+                    ":v_team": team,
+                },
+            })
+        )
+    ).Items as Record<string, any>[];
+}
+
+async function processPlayers(players: Record<TeamName, Player[]>) {
+    let noMatches = 0;
+    let singleMatches = 0;
+    let multipleMatches = 0;
+
+    for (let [team, playersOfTeam] of Object.entries(players)) {
+        for (let playerOfTeam of playersOfTeam) {
+            await new Promise(r => setTimeout(r, 50));
+            const matchingPlayers = await getMatchingDynamoDBPlayers(
+                playerOfTeam.dob,
+                team === "USA" ? "United States" : team
+            );
+            if (matchingPlayers.length === 0) {
+                // No matches
+                console.log(`Couldn't find a matching player for ${team}'s ${playerOfTeam.name}.`);
+                noMatches++;
+            } else if (matchingPlayers.length > 1) {
+                // Multiple matches
+                console.log(
+                    `${team}'s ${playerOfTeam.name} has ${
+                        matchingPlayers.length
+                    } matches: ${JSON.stringify(matchingPlayers)}`
+                );
+                multipleMatches++;
+            } else {
+                // Exactly one match
+                console.log(
+                    `Matched ${team}'s ${playerOfTeam.name} to ${JSON.stringify(matchingPlayers)}`
+                );
+                singleMatches++;
+            }
+        }
+    }
+    const noMatchesPercent = ((noMatches / 831) * 100).toFixed(2);
+    const singleMatchesPercent = ((singleMatches / 831) * 100).toFixed(2);
+    const multipleMatchesPercent = ((multipleMatches / 831) * 100).toFixed(2);
+    console.log(
+        `No matches: ${noMatches} (${noMatchesPercent}%)\n` +
+            `Single Matches: ${singleMatches} (${singleMatchesPercent}%)\n` +
+            `Multiple Matches: ${multipleMatches} (${multipleMatchesPercent}%)`
+    );
+}
+
+function findDuplicatePlayers(players: Record<TeamName, Player[]>) {
+    const playerIds = new Set();
+    for (let [team, playersOfTeam] of Object.entries(players)) {
+        for (let playerOfTeam of playersOfTeam) {
+            const id = (/\/\d+\.png/.exec(playerOfTeam.photo) as RegExpExecArray)[0].slice(1, -4);
+            if (playerIds.has(id)) {
+                console.log(`Duplicate player found: ${team}'s ${[playerOfTeam.name]} (id ${id})`);
+            } else {
+                playerIds.add(id);
+            }
+        }
+    }
+}
+
+findDuplicatePlayers(apiData as Record<string, Player[]>);
+throw new Error("done");
+processPlayers(apiData as Record<string, Player[]>).then(() => console.log("Done"));
+
 // import "isomorphic-fetch";
 // import fs from "node:fs";
 // import path from "node:path";
