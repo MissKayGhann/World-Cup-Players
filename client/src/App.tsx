@@ -6,16 +6,18 @@ import ErrorPage404 from "./pages/ErrorPage404";
 import { useEffect, useState } from "react";
 import { IPageProps, ResultsProps, NationInfo, DisplayInfo, Query, PlayerInfo } from "./types";
 import getNations from "./utils/getNations";
+import getPlayersFromNation from "./utils/getPlayers";
 
 function App(): JSX.Element {
     const [nations, setNations] = useState<NationInfo[]>([]);
+    const [players, setPlayers] = useState<PlayerInfo[]>([]);
     const [route, setRoute] = useState<string>("home");
-    const [query, setQuery] = useState<Query>({ query: "", filterBy: "", min: 0, max: 32 });
+    const [query, setQuery] = useState<Query>({ query: "" });
 
     const routeStates = { setRoute: setRoute, setQuery: setQuery };
     const routeProps: IPageProps = { props: { ...routeStates } };
     const displayPageProps: ResultsProps & DisplayInfo = {
-        props: { ...routeStates, query: query, nations: nations },
+        props: { ...routeStates, query: query, nations: nations, players: players },
     };
 
     const handleRoute = () => {
@@ -32,6 +34,8 @@ function App(): JSX.Element {
         getNations()
             .then(e => e.sort((a, b) => (a.nation > b.nation ? 1 : -1)))
             .then(e => setNations(e));
+
+        getPlayersFromNation().then(e => setPlayers(e));
     }, []);
 
     useEffect(() => {

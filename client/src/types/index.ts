@@ -52,6 +52,9 @@ interface ISearchResultProps {
     props: {
         content: string;
         recentlySearched?: boolean;
+        key: string;
+        formSubmitCount: number;
+        setFormSubmitCount: React.Dispatch<React.SetStateAction<number>>;
     };
 }
 
@@ -71,14 +74,22 @@ interface IPageProps {
 
 type Query = {
     query: string;
-    filterBy: string;
-    min: number;
-    max: number;
+    filterBy?: string;
+    min?: number;
+    max?: number;
 };
 
 type ResultsProps = DisplayInfo & {
     props: {
         query: Query;
+    };
+};
+
+type SearchBarProps = IPageProps & {
+    props: {
+        results?: boolean;
+        setShowRecents?: React.Dispatch<React.SetStateAction<boolean>>;
+        players: PlayerInfo[];
     };
 };
 
@@ -94,4 +105,5 @@ export type {
     ResultsProps,
     DisplayInfo,
     Query,
+    SearchBarProps,
 };

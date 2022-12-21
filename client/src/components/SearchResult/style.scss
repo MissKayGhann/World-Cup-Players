@@ -15,4 +15,14 @@
 		&:last-child {
 			border-radius: 0 0 30px 30px;
 		}
+
+		.search-result-content {
+			flex-grow: 1;
+		}
+
+		.delete-icon {
+				justify-self: flex-end;
+				width: 24px;
+				padding-right: 5px;
+		}
 }

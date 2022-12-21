@@ -4,27 +4,18 @@ import { ResultsProps } from "../../types";
 
 const Results: FC<ResultsProps> = ({ props }): JSX.Element => {
     // Change showResults to false to hide recentSearches
-    const [showRecents, _] = useState<boolean>(true);
+    const [showRecents, setShowRecents] = useState<boolean>(false);
 
-    // const filteredResults = props.nations.filter(n => n.
-
-    const filterResults = () =>  {
-        switch (props.query.filterBy) {
-            case "goals":
-                props.nations.filter(n => n.
-                break;
-        
-            default:
-                break;
-        }
-    }
-
-    const searchBarProps = { ...props, results: !showRecents };
+    const searchBarProps = {
+        ...props,
+        results: showRecents,
+        setShowRecents: setShowRecents,
+        players: props.players,
+    };
     return (
         <>
             <SearchBar props={searchBarProps} />
-            <div className="results-container">
-            </div>
+            <div className="results-container"></div>
         </>
     );
 };
