@@ -1,12 +1,12 @@
 import { FC } from "react";
 import QatarBanner from "../../components/QatarBanner";
 import Nations from "../../components/Nations";
-import { DisplayInfo, INationProps } from "../../types";
+import { INationProps } from "../../types";
+import { IHomeProps, PageProps } from "../../types";
 import "./style.scss";
 
-type HomeProps = DisplayInfo & {};
-
-const Home: FC<HomeProps> = ({ props }) => {
+// use PageProps generic type for page components
+const Home: FC<PageProps<IHomeProps>> = ({ props }) => {
     return (
         <div className="main-wrapper">
             <header>

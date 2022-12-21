@@ -1,20 +1,22 @@
 import { FC, useState } from "react";
 import SearchBar from "../../components/SearchBar";
-import { ResultsProps } from "../../types";
+import { IResultsProps, ISearchBarProps, PageProps } from "../../types";
 
-const Results: FC<ResultsProps> = ({ props }): JSX.Element => {
+const Results: FC<PageProps<IResultsProps>> = ({ props }): JSX.Element => {
     // Change showResults to false to hide recentSearches
     const [showRecents, setShowRecents] = useState<boolean>(false);
 
-    const searchBarProps = {
-        ...props,
-        results: showRecents,
-        setShowRecents: setShowRecents,
-        players: props.players,
+    const searchBarProps: PageProps<ISearchBarProps> = {
+        props: {
+            ...props,
+            results: showRecents,
+            setShowRecents: setShowRecents,
+            players: props.players,
+        },
     };
     return (
         <>
-            <SearchBar props={searchBarProps} />
+            <SearchBar props={searchBarProps.props} />
             <div className="results-container"></div>
         </>
     );

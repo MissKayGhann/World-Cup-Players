@@ -1,10 +1,10 @@
 import { FC } from "react";
 import historyIcon from "../../assets/history-icon.png";
 import deleteIcon from "../../assets/delete-icon.svg";
-import { ISearchResultProps } from "../../types";
+import { ISearchResultProps, PageProps } from "../../types";
 import "./style.scss";
 
-const SearchResult: FC<ISearchResultProps> = ({ props }): JSX.Element => {
+const SearchResult: FC<PageProps<ISearchResultProps>> = ({ props }): JSX.Element => {
     const handleDeleteResult = () => {
         localStorage.removeItem(props.key);
         props.setFormSubmitCount(props.formSubmitCount + 1);

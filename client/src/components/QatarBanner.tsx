@@ -1,14 +1,13 @@
 import "../styles/QatarBanner.css";
 import SearchBar from "./SearchBar";
 import { FC } from "react";
-import { IPageProps } from "../types";
+import { PageProps, PlayerInfo } from "../types";
 
-interface IQatarBannerProps extends IPageProps {
-    // setRoute: React.Dispatch<React.SetStateAction<string>>;
-    // setQuery: React.Dispatch<React.SetStateAction<string>>;
+interface IQatarBannerProps {
+    players: PlayerInfo[];
 }
 
-const QatarBanner: FC<IQatarBannerProps> = ({ props }): JSX.Element => {
+const QatarBanner: FC<PageProps<IQatarBannerProps>> = ({ props }): JSX.Element => {
     return (
         <>
             <section className="qatar-banner-container">

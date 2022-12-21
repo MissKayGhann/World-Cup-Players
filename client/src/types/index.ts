@@ -1,3 +1,36 @@
+interface IDefaultProps {
+    setRoute: React.Dispatch<React.SetStateAction<string>>;
+    setQuery: React.Dispatch<React.SetStateAction<Query>>;
+}
+
+type PageProps<Type> = Record<"props", IDefaultProps & Type>;
+
+interface IHomeProps extends DisplayInfo {}
+
+interface IResultsProps {
+    query: Query;
+    players: PlayerInfo[];
+}
+
+interface ISearchResultProps {
+    content: string;
+    recentlySearched?: boolean;
+    key: string;
+    formSubmitCount: number;
+    setFormSubmitCount: React.Dispatch<React.SetStateAction<number>>;
+}
+
+interface ISearchBarProps {
+    results?: boolean;
+    setShowRecents?: React.Dispatch<React.SetStateAction<boolean>>;
+    players: PlayerInfo[];
+}
+
+interface DisplayInfo {
+    nations: NationInfo[];
+    players: PlayerInfo[];
+}
+
 type NationInfo = {
     nation: string;
     fifaCode: string;
@@ -48,30 +81,6 @@ interface IStatsSummaryProps {
     value: string | number;
 }
 
-interface ISearchResultProps {
-    props: {
-        content: string;
-        recentlySearched?: boolean;
-        key: string;
-        formSubmitCount: number;
-        setFormSubmitCount: React.Dispatch<React.SetStateAction<number>>;
-    };
-}
-
-type DisplayInfo = IPageProps & {
-    props: {
-        nations: NationInfo[];
-        players: PlayerInfo[];
-    };
-};
-
-interface IPageProps {
-    props: {
-        setRoute: React.Dispatch<React.SetStateAction<string>>;
-        setQuery: React.Dispatch<React.SetStateAction<Query>>;
-    };
-}
-
 type Query = {
     query: string;
     filterBy?: string;
@@ -79,31 +88,19 @@ type Query = {
     max?: number;
 };
 
-type ResultsProps = DisplayInfo & {
-    props: {
-        query: Query;
-    };
-};
-
-type SearchBarProps = IPageProps & {
-    props: {
-        results?: boolean;
-        setShowRecents?: React.Dispatch<React.SetStateAction<boolean>>;
-        players: PlayerInfo[];
-    };
-};
-
 export type {
+    IDefaultProps,
     INationProps,
     NationInfo,
     IPlayerProps,
     PlayerInfo,
     IStatsSummaryProps,
     StatsSummaryType,
-    ISearchResultProps,
-    IPageProps,
-    ResultsProps,
-    DisplayInfo,
     Query,
-    SearchBarProps,
+    PageProps,
+    IHomeProps,
+    IResultsProps,
+    ISearchResultProps,
+    ISearchBarProps,
+    DisplayInfo,
 };

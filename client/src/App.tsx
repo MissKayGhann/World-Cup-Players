@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Results from "./pages/Results";
 import ErrorPage404 from "./pages/ErrorPage404";
 import { useEffect, useState } from "react";
-import { IPageProps, ResultsProps, NationInfo, DisplayInfo, Query, PlayerInfo } from "./types";
+import { PageProps, IResultsProps, NationInfo, Query, PlayerInfo, DisplayInfo } from "./types";
 import getNations from "./utils/getNations";
 import getPlayersFromNation from "./utils/getPlayers";
 
@@ -15,18 +15,24 @@ function App(): JSX.Element {
     const [query, setQuery] = useState<Query>({ query: "" });
 
     const routeStates = { setRoute: setRoute, setQuery: setQuery };
-    const routeProps: IPageProps = { props: { ...routeStates } };
-    const displayPageProps: ResultsProps & DisplayInfo = {
-        props: { ...routeStates, query: query, nations: nations, players: players },
+
+    // use PageProps generic type for page components
+    const pageProps: PageProps<IResultsProps & DisplayInfo> = {
+        props: {
+            ...routeStates,
+            nations: nations,
+            players: players,
+            query: query,
+        },
     };
 
     const handleRoute = () => {
         if (route === "home") {
-            return <Home props={displayPageProps.props} />;
+            return <Home props={pageProps.props} />;
         } else if (route === "results") {
-            return <Results props={displayPageProps.props} />;
+            return <Results props={pageProps.props} />;
         } else {
-            return <ErrorPage404 props={routeProps.props} />;
+            return <ErrorPage404 props={pageProps.props} />;
         }
     };
 

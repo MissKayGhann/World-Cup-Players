@@ -1,11 +1,17 @@
 import "./style.scss";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, FC } from "react";
 import SearchResult from "../SearchResult";
 import Player from "../Player";
-import { ISearchResultProps, SearchBarProps, PlayerInfo, IPlayerProps } from "../../types/";
+import {
+    ISearchResultProps,
+    ISearchBarProps,
+    PlayerInfo,
+    IPlayerProps,
+    PageProps,
+} from "../../types/";
 import homeIcon from "../../assets/home-icon.svg";
 
-const SearchBar = ({ props }: SearchBarProps): JSX.Element => {
+const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [formSubmitCount, setFormSubmitCount] = useState<number>(0);
     const [filteredResults, setFilteredResults] = useState<PlayerInfo[]>(props.players);
@@ -44,14 +50,16 @@ const SearchBar = ({ props }: SearchBarProps): JSX.Element => {
     };
 
     const filterResults = (): PlayerInfo[] => {
+        let filteredArray: PlayerInfo[] = props.players;
         if (inputRef.current?.value) {
-            const filteredArray: PlayerInfo[] = props.players.filter(value => {
-                if (inputRef.current?.value) {
-                    return value.name.includes(inputRef.current?.value);
-                }
+            filteredArray = filteredArray.filter(value => {
+                return value.name
+                    .toLowerCase()
+                    .includes(inputRef.current?.value.toLowerCase() || "");
             });
-            if (filteredArray) return filteredArray;
         }
+        console.log(filteredArray);
+        return filteredArray;
     };
 
     useEffect(() => {}, [formSubmitCount, props.results, filterResults]);
@@ -116,8 +124,10 @@ const SearchBar = ({ props }: SearchBarProps): JSX.Element => {
                         // Looping over localStorage and generating components accordingly
                         let value = localStorage.getItem(key);
                         value = value ? value : "";
-                        const searchResultProps: ISearchResultProps = {
+                        const searchResultProps: PageProps<ISearchResultProps> = {
                             props: {
+                                setRoute: props.setRoute,
+                                setQuery: props.setQuery,
                                 content: value,
                                 recentlySearched: true,
                                 key: key,

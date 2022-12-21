@@ -1,11 +1,13 @@
 import { FC } from "react";
 import SearchBar from "../../components/SearchBar";
-import { IPageProps } from "../../types";
+import { PageProps, PlayerInfo } from "../../types";
 import "./style.scss";
 
-interface IErrorPageProps extends IPageProps {}
+interface IErrorPageProps {
+    players: PlayerInfo[];
+}
 
-const ErrorPage404: FC<IErrorPageProps> = ({ props }) => {
+const ErrorPage404: FC<PageProps<IErrorPageProps>> = ({ props }) => {
     return (
         <div className="error-page-container">
             <SearchBar props={props} />

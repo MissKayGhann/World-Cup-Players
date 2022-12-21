@@ -10,23 +10,13 @@ const getPlayersFromNation = async (
 ): Promise<PlayerInfo[]> => {
     // can get nations endpoint
     let requestURL = ``;
-    let playersArray: PlayerInfo[] = [];
 
     if (nation) {
         requestURL = `${constants.BASE_URL}teams/${nation}/players/${playerName ? playerName : ""}`;
     } else {
         // loop over each nation, then query all the players from that nation
         // next, add these players to an array that will contain ALL players
-        const nations: NationInfo[] = await getNations();
-
-        nations.forEach(value => {
-            requestURL = `${constants.BASE_URL}teams/${value.nation}/players`;
-            fetch(requestURL)
-                .then(response => response.json())
-                .then(data => {
-                    playersArray.push(data);
-                });
-        });
+        const playersArray: PlayerInfo[] = await getAllPlayers();
 
         return playersArray;
     }
@@ -35,6 +25,18 @@ const getPlayersFromNation = async (
 
     const data: PlayerInfo[] = await res.json();
     return data;
+};
+
+const getAllPlayers = async (): Promise<PlayerInfo[]> => {
+    let playersArray: PlayerInfo[] = [];
+    const nations: NationInfo[] = await getNations();
+    nations.forEach(value => {
+        fetch(`${constants.BASE_URL}teams/${value.nation}/players`)
+            .then(response => response.json())
+            .then(data => playersArray.push(...data));
+    });
+
+    return playersArray;
 };
 
 export default getPlayersFromNation;
