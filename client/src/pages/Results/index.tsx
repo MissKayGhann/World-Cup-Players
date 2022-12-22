@@ -3,7 +3,7 @@ import SearchBar from "../../components/SearchBar";
 import { IResultsProps, ISearchBarProps, PageProps } from "../../types";
 
 const Results: FC<PageProps<IResultsProps>> = ({ props }): JSX.Element => {
-    // Change showResults to false to hide recentSearches
+    // Change showRecents to false to hide recentSearches
     const [showRecents, setShowRecents] = useState<boolean>(false);
 
     const searchBarProps: PageProps<ISearchBarProps> = {

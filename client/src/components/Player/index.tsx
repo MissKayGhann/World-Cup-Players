@@ -11,6 +11,12 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
     const [classList, setClassList] = useState("hidden player-content");
     const [dropDownClasses, setDropDownClasses] = useState("dropdown-img");
 
+    props.position = props.position ? props.position : "GK";
+    props.shirtNumber = props.shirtNumber ? props.shirtNumber : 1;
+    props.capsForNation = props.capsForNation ? props.capsForNation : 0;
+    props.manOfMatchCount = props.manOfMatchCount ? props.manOfMatchCount : 0;
+    props.goalsForNation = props.goalsForNation ? props.goalsForNation : 0;
+
     const handleDropDownClick = () => {
         if (classList === "hidden player-content") {
             setClassList("player-content");
@@ -27,27 +33,27 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
 
     return (
         <>
-            <div className="player-overview">
+            <div className="player-overview" onClick={handleDropDownClick}>
                 <p className="player-name">
-                    {props.name}{" "}
+                    <span id="player-name">{props.name}</span>{" "}
                     <span id="nation-and-position">
-                        {props.team} // {props.position}
+                        {props.team} // {props.position ? props.position : ""}
                     </span>
                 </p>
                 <img
                     src={dropdownArrow}
                     alt="A dropdown arrow. Press to view more details about this player"
                     className={dropDownClasses}
-                    onClick={handleDropDownClick}
                 />
             </div>
-
             <section className={classList}>
-                <img
-                    src={error || loading ? "#" : image ? image : "#"} // if error or loading, use #. else if image, use image. else, use #.
-                    alt={props.name}
-                    className="player-img"
-                />
+                <div className="player-personal-info">
+                    <img
+                        src={props.photo ? props.photo : image && !loading && !error ? image : "#"} // if error or loading, use #. else if image, use image. else, use #.
+                        alt={props.name}
+                        className={`player-img ${props.height && props.weight ? "" : "large-img"}`}
+                    />
+                </div>
                 <div className="player-stats players-grid">
                     {/* 9 stats to show:
                         position, shirtNumber, goals, assists, yellows, reds, manOfMatch, caps, nationGoals
@@ -55,7 +61,7 @@ const Player: FC<IPlayerProps> = ({ props }): JSX.Element => {
 
                     <StatsSummary stat={"Position"} value={props.position} />
                     <StatsSummary stat={"Shirt Number"} value={props.shirtNumber} />
-                    <StatsSummary stat={"Appearances"} value={props.capsForNation} />
+                    <StatsSummary stat={"Caps"} value={props.capsForNation} />
                     <StatsSummary stat={"Goals Scored"} value={props.goals} />
                     <StatsSummary stat={"Assists"} value={props.assists} />
                     <StatsSummary stat={"Man of Match"} value={props.manOfMatchCount} />

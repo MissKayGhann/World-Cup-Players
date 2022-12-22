@@ -1,10 +1,11 @@
 import { FC } from "react";
 import SearchBar from "../../components/SearchBar";
-import { PageProps, PlayerInfo } from "../../types";
+import { PageProps, PlayerInfo, Query } from "../../types";
 import "./style.scss";
 
 interface IErrorPageProps {
     players: PlayerInfo[];
+    query: Query;
 }
 
 const ErrorPage404: FC<PageProps<IErrorPageProps>> = ({ props }) => {

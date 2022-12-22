@@ -8,8 +8,11 @@ import {
     PlayerInfo,
     IPlayerProps,
     PageProps,
+    Query,
+    // FilterBy,
 } from "../../types/";
 import homeIcon from "../../assets/home-icon.svg";
+import githubIcon from "../../assets/github-icon.svg";
 
 const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -19,6 +22,9 @@ const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // preventing form from submitting (that's kinda trippy to read lol)
         setFormSubmitCount(formSubmitCount + 1);
+        if (props.setShowRecents) props.setShowRecents(false);
+        let filtered = filterResults(props.query);
+        setFilteredResults(filtered);
 
         // making sure the input is not empty before submit
         if (inputRef.current?.value && localStorage.length < 5) {
@@ -49,16 +55,76 @@ const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
         }
     };
 
-    const filterResults = (): PlayerInfo[] => {
-        let filteredArray: PlayerInfo[] = props.players;
-        if (inputRef.current?.value) {
-            filteredArray = filteredArray.filter(value => {
-                return value.name
-                    .toLowerCase()
-                    .includes(inputRef.current?.value.toLowerCase() || "");
-            });
+    const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const theQuery: Query = {
+            query: props.query.query,
+            filterBy: props.query.filterBy,
+            min: Number(e.target.value),
+            max: props.query.max,
+        };
+
+        props.setQuery(theQuery);
+    };
+
+    const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const theQuery: Query = {
+            query: props.query.query,
+            filterBy: props.query.filterBy,
+            min: props.query.min,
+            max: Number(e.target.value),
+        };
+        props.setQuery(theQuery);
+    };
+
+    const handleDropDownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        let theQuery: Query = props.query;
+        if (
+            e.target.value === "" ||
+            e.target.value === "goals" ||
+            e.target.value === "assists" ||
+            e.target.value === "yellowCards" ||
+            e.target.value === "redCards" ||
+            e.target.value === "manOfMatchCount" ||
+            e.target.value === "capsForNation" ||
+            e.target.value === "goalsForNation"
+        ) {
+            theQuery = {
+                query: props.query.query,
+                filterBy: e.target.value,
+                min: props.query.min,
+                max: props.query.max,
+            };
         }
-        console.log(filteredArray);
+
+        props.setQuery(theQuery);
+    };
+
+    const filterResults = (query?: Query): PlayerInfo[] => {
+        let filteredArray: PlayerInfo[] = props.players;
+        let stat: number;
+
+        // if statement is for filtering by stat, else is for filtering by name
+        if (query?.filterBy && query?.min && query?.max) {
+            filteredArray = filteredArray.filter(value => {
+                if (query.filterBy)
+                    stat = Number(value[query.filterBy]) ? Number(value[query.filterBy]) : 0;
+                if (
+                    stat >= query.min &&
+                    stat <= query.max &&
+                    value.name.toLowerCase().includes(inputRef.current?.value.toLowerCase() || "")
+                )
+                    return value;
+            });
+        } else {
+            if (inputRef.current?.value) {
+                filteredArray = filteredArray.filter(value => {
+                    return value.name
+                        .toLowerCase()
+                        .includes(inputRef.current?.value.toLowerCase() || "");
+                });
+            }
+        }
+
         return filteredArray;
     };
 
@@ -80,10 +146,13 @@ const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
                         onChange={handleInputChange}
                     />
 
-                    <select name="filter-search" id="search-dropdown" defaultValue="filterBy">
-                        <option value="filterBy" disabled>
-                            Filter by:
-                        </option>
+                    <select
+                        name="filter-search"
+                        id="search-dropdown"
+                        defaultValue="filterBy"
+                        onChange={e => handleDropDownChange(e)}
+                    >
+                        <option value="">Filter by:</option>
                         <option value="goals">Goals</option>
                         <option value="assists">Assists</option>
                         <option value="yellowCards">Yellow cards</option>
@@ -98,13 +167,15 @@ const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
                         name="min"
                         className="min-max-input"
                         placeholder="min"
-                        min={1}
+                        onChange={e => handleMinChange(e)}
+                        min={0}
                     />
                     <input
                         type="number"
                         name="max"
                         className="min-max-input"
                         placeholder="max"
+                        onChange={e => handleMaxChange(e)}
                         min={1}
                     />
                     <input
@@ -113,11 +184,18 @@ const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
                         value=""
                     />
                 </form>
+
+                <button className="home-btn github-btn">
+                    <a href="https://github.com/MissKayGhann/World-Cup-Players/" target="_blank">
+                        <img src={githubIcon} alt="Click to go to our github repository" />
+                    </a>
+                </button>
+
                 <div
                     className={
                         props.results
-                            ? "search-results-container"
-                            : "search-results-container hidden"
+                            ? "search-results-container z-index"
+                            : "search-results-container z-index hidden"
                     }
                 >
                     {Object.keys(localStorage).map((key, index) => {
@@ -126,6 +204,7 @@ const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
                         value = value ? value : "";
                         const searchResultProps: PageProps<ISearchResultProps> = {
                             props: {
+                                route: props.route,
                                 setRoute: props.setRoute,
                                 setQuery: props.setQuery,
                                 content: value,
@@ -138,15 +217,17 @@ const SearchBar: FC<PageProps<ISearchBarProps>> = ({ props }): JSX.Element => {
                         return <SearchResult props={searchResultProps.props} key={index} />;
                     })}
                 </div>
-                <div className="search-results-container">
-                    {filteredResults.map(value => {
-                        const playerProps: IPlayerProps = {
-                            props: {
-                                ...value,
-                            },
-                        };
-                        return <Player props={playerProps.props} />;
-                    })}
+                <div className="search-results-container filtered-results">
+                    {props.route === "results"
+                        ? filteredResults.map((value, index) => {
+                              const playerProps: IPlayerProps = {
+                                  props: {
+                                      ...value,
+                                  },
+                              };
+                              return <Player props={playerProps.props} key={index} />;
+                          })
+                        : ""}
                 </div>
             </div>
         </>

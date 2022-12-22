@@ -17,6 +17,16 @@
 
     &:hover {
         background-color: purple;
+    background-clip: border-box;
+    }
+}
+
+.github-btn {
+    left: 95%;
+    background-clip: border-box;
+    
+    a > img {
+        width: 100%;
     }
 }
 
@@ -32,6 +42,46 @@
         // background-color: red;
         width: calc(50% + 275px);
         height: 100%;
+    }
+
+    .z-index {
+        z-index: 1;
+    }
+
+    .filtered-results {
+        position: absolute;
+        top: 120px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 10px;
+
+        .player-overview {
+            // background-color: rgb(208, 183, 208);
+            background: transparent;
+            border-bottom: 1px solid white;
+            color: rgb(227, 180, 227);
+            width: 95vw;
+
+            &:hover {
+                #player-name {
+                    text-decoration: underline;
+                }
+            }
+
+            #nation-and-position {
+                color: rgb(163, 163, 163);
+            }
+        }
+
+        .player-content {
+            width: 95vw;
+
+            .players-grid, .players-grid {
+                color: white;
+            }
+        }
+
     }
 }
 
@@ -96,6 +146,10 @@
             display: none;
         }
     }
+}
+
+.info-btn {
+
 }
 
 .results-border {

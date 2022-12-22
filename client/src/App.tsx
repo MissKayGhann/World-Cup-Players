@@ -12,9 +12,9 @@ function App(): JSX.Element {
     const [nations, setNations] = useState<NationInfo[]>([]);
     const [players, setPlayers] = useState<PlayerInfo[]>([]);
     const [route, setRoute] = useState<string>("home");
-    const [query, setQuery] = useState<Query>({ query: "" });
+    const [query, setQuery] = useState<Query>({ query: "", filterBy: "", min: 0, max: 0 });
 
-    const routeStates = { setRoute: setRoute, setQuery: setQuery };
+    const routeStates = { route: route, setRoute: setRoute, setQuery: setQuery };
 
     // use PageProps generic type for page components
     const pageProps: PageProps<IResultsProps & DisplayInfo> = {
@@ -46,7 +46,8 @@ function App(): JSX.Element {
 
     useEffect(() => {
         handleRoute();
-    }, []);
+        console.log(route);
+    }, [route]);
 
     return (
         <div className="App">
