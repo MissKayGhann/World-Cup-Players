@@ -17,13 +17,12 @@
 
     &:hover {
         background-color: purple;
-    background-clip: border-box;
     }
 }
 
 .github-btn {
-    left: 95%;
-    background-clip: border-box;
+    left: 93%;
+
     
     a > img {
         width: 100%;
@@ -54,7 +53,7 @@
         display: flex;
         align-items: center;
         flex-direction: column;
-        row-gap: 10px;
+        row-gap: 0px;
 
         .player-overview {
             // background-color: rgb(208, 183, 208);
@@ -148,8 +147,9 @@
     }
 }
 
-.info-btn {
-
+.player-name {
+    flex-grow: 1;
+    text-align: center;
 }
 
 .results-border {

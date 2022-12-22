@@ -44,6 +44,12 @@ background: rgb(39, 2, 12);
 		}
 	}
 
+	.player-content {
+		background: transparent;
+		border-bottom: 0;
+		column-gap: 0px;
+	}
+
 	p {
 		padding: 0 25px 0 15px;
 		text-align: justify;

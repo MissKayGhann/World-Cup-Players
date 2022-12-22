@@ -9,7 +9,6 @@ import {
     IPlayerProps,
     PageProps,
     Query,
-    // FilterBy,
 } from "../../types/";
 import homeIcon from "../../assets/home-icon.svg";
 import githubIcon from "../../assets/github-icon.svg";
