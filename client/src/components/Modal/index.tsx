@@ -2,7 +2,6 @@ import Player from "../Player";
 import { useState, useEffect } from "react";
 import "./style.scss";
 import { NationInfo, IPlayerProps, PlayerInfo } from "../../types";
-// import useImage from "../../utils/useImage";
 import closeButton from "../../assets/close-button.svg";
 import getPlayersFromNation from "../../utils/getPlayers";
 import StatsSummary from "../StatsSummary";
@@ -34,8 +33,6 @@ const Modal = ({ setOpenModal, nationInfo }: IModalProps): JSX.Element => {
         });
     }, []);
 
-    // const { loading, image, error } = useImage("qatar-stadium.png");
-
     return (
         <div className="modal">
             <img
@@ -46,7 +43,7 @@ const Modal = ({ setOpenModal, nationInfo }: IModalProps): JSX.Element => {
             />
             <div className="img-nation">
                 <img
-                    src={`https://github.com/gosquared/flags/blob/master/flags/flags/flat/64/${nationInfo.flag}?raw=true`} // if error or loading, use #. else if image, use image. else use #.
+                    src={`https://github.com/gosquared/flags/blob/master/flags/flags/flat/64/${nationInfo.flag}?raw=true`}
                     alt="alt text here"
                     className="nation-img"
                 />
