@@ -1,11 +1,11 @@
 import Modal from "../Modal";
-import useImage from "../../utils/useImage";
+// import useImage from "../../utils/useImage";
 import { FC, useState } from "react";
 import { INationProps } from "../../types";
 import "./style.scss";
 
 const Nations: FC<INationProps> = ({ props }: INationProps): JSX.Element => {
-    const { loading, image, error } = useImage(props.flag);
+    // const { loading, image, error } = useImage(props.flag);
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -14,21 +14,25 @@ const Nations: FC<INationProps> = ({ props }: INationProps): JSX.Element => {
             <div
                 className="nation-box"
                 onClick={() => setOpenModal(true)}
-                style={
-                    // conditionally rendering the background using ternary operator
-                    error || loading
-                        ? { backgroundColor: "grey" }
-                        : {
-                              backgroundImage: `url("${image}")`,
-                              backgroundSize: `160%`,
-                              backgroundPosition: `center`,
-                              backgroundRepeat: `no-repeat`,
-                          }
-                }
+                // style={{
+                //     backgroundImage: `url(${
+                //         "https://github.com/gosquared/flags/blob/master/flags/flags/flat/64/" +
+                //         props.flag +
+                //         "?raw=true"
+                //     })`,
+                //     backgroundSize: `100%`,
+                //     backgroundPosition: `center`,
+                //     backgroundRepeat: `no-repeat`,
+                // }}
             >
                 <div className="nation-horizontal-text">
                     <p>{props.nation}</p>
                 </div>
+                <img
+                    src={`https://github.com/gosquared/flags/blob/master/flags/flags/flat/64/${props.flag}?raw=true`}
+                    alt={`${props.nation}'s flag`}
+                    className="nation-flag"
+                />
             </div>
 
             {openModal && (
