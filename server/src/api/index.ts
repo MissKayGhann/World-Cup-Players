@@ -4,7 +4,51 @@ import apiData from "../output.json";
 
 import { ddbdClient } from "../lib";
 import { TeamName, Player } from "./types";
-import { QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+
+function generateUpdateExpression(fields: Player) {
+    let updateExpression = "SET";
+    let keysUsed = 0;
+    for (let key of Object.keys(fields)) {
+        // We don't want to update player's name/dob/team
+        if (["name", "dob", "team"].includes(key)) continue;
+
+        updateExpression += `${keysUsed === 0 ? " " : ", "}${
+            key === "goalsScored" ? "goals" : key
+        }=:v_${key}`;
+        keysUsed++;
+    }
+    // console.log(updateExpression);
+    return updateExpression;
+}
+
+function generateExpressionAttributeValues(fields: Player) {
+    const expressionAttributeValues: Record<string, string | number> = {};
+    for (let [key, value] of Object.entries(fields)) {
+        if (["name", "dob", "team"].includes(key)) continue;
+
+        expressionAttributeValues[`:v_${key}`] = value;
+    }
+    // console.log(expressionAttributeValues);
+    return expressionAttributeValues;
+}
+
+async function updatePlayer(team: TeamName, name: Player["name"], fieldsToUpdate: Player) {
+    return (
+        await ddbdClient.send(
+            new UpdateCommand({
+                TableName: "Players",
+                Key: {
+                    team: team,
+                    name: name,
+                },
+                UpdateExpression: generateUpdateExpression(fieldsToUpdate),
+                ExpressionAttributeValues: generateExpressionAttributeValues(fieldsToUpdate),
+                ReturnValues: "ALL_NEW",
+            })
+        )
+    ).Attributes as Record<string, any>;
+}
 
 async function getMatchingDynamoDBPlayers(dob: string, team: TeamName) {
     return (
@@ -21,7 +65,9 @@ async function getMatchingDynamoDBPlayers(dob: string, team: TeamName) {
                 },
             })
         )
-    ).Items as Record<string, any>[];
+    ).Items as (Record<"team", Player["team"]> &
+        Record<"name", Player["name"]> &
+        Record<"dob", Player["dob"]>)[];
 }
 
 async function processPlayers(players: Record<TeamName, Player[]>) {
@@ -41,25 +87,63 @@ async function processPlayers(players: Record<TeamName, Player[]>) {
                 console.log(`Couldn't find a matching player for ${team}'s ${playerOfTeam.name}.`);
                 noMatches++;
             } else if (matchingPlayers.length > 1) {
-                // Multiple matches
-                console.log(
-                    `${team}'s ${playerOfTeam.name} has ${
-                        matchingPlayers.length
-                    } matches: ${JSON.stringify(matchingPlayers)}`
-                );
-                multipleMatches++;
+                // Multiple matches, so try to narrow by comparing surname
+                const stillMatchingPlayers = [];
+
+                for (let matchingPlayer of matchingPlayers) {
+                    const matchingPlayerNames = matchingPlayer.name.split(" ");
+                    const matchingPlayerSurname =
+                        matchingPlayerNames[matchingPlayerNames.length - 1];
+
+                    const playerOfTeamNames = playerOfTeam.name.split(" ");
+                    const playerOfTeamSurname = playerOfTeamNames[playerOfTeamNames.length - 1];
+
+                    if (matchingPlayerSurname.toLowerCase() === playerOfTeamSurname.toLowerCase()) {
+                        stillMatchingPlayers.push(matchingPlayer);
+                    }
+                }
+
+                if (stillMatchingPlayers.length > 1) {
+                    // Didn't manage to narrow to one player from surname
+                    console.log(
+                        `${team}'s ${playerOfTeam.name} has ${
+                            stillMatchingPlayers.length
+                        } matches: ${JSON.stringify(stillMatchingPlayers)}`
+                    );
+                    multipleMatches++;
+                } else if (stillMatchingPlayers.length === 0) {
+                    // There were no players matching with a surname
+                    console.log(
+                        `${team}'s ${playerOfTeam.name} had ${matchingPlayers.length} matches, ` +
+                            `but none of the share a surname: ${JSON.stringify(matchingPlayers)}`
+                    );
+                    multipleMatches++;
+                } else {
+                    // Managed to narrow to one player by checking surname
+                    const matchedPlayer = stillMatchingPlayers[0];
+                    console.log(
+                        `Matched ${team}'s ${playerOfTeam.name} to ${JSON.stringify(
+                            matchedPlayer
+                        )} after comparing surnames`
+                    );
+
+                    await updatePlayer(matchedPlayer.team, matchedPlayer.name, playerOfTeam);
+                    singleMatches++;
+                }
             } else {
                 // Exactly one match
                 console.log(
                     `Matched ${team}'s ${playerOfTeam.name} to ${JSON.stringify(matchingPlayers)}`
                 );
+
+                await updatePlayer(matchingPlayers[0].team, matchingPlayers[0].name, playerOfTeam);
                 singleMatches++;
             }
         }
     }
-    const noMatchesPercent = ((noMatches / 831) * 100).toFixed(2);
-    const singleMatchesPercent = ((singleMatches / 831) * 100).toFixed(2);
-    const multipleMatchesPercent = ((multipleMatches / 831) * 100).toFixed(2);
+    const noMatchesPercent = ((noMatches / 714) * 100).toFixed(2);
+    const singleMatchesPercent = ((singleMatches / 714) * 100).toFixed(2);
+    const multipleMatchesPercent = ((multipleMatches / 714) * 100).toFixed(2);
     console.log(
         `No matches: ${noMatches} (${noMatchesPercent}%)\n` +
             `Single Matches: ${singleMatches} (${singleMatchesPercent}%)\n` +
@@ -67,7 +151,9 @@ async function processPlayers(players: Record<TeamName, Player[]>) {
     );
 }
 
-processPlayers(apiData as Record<string, Player[]>).then(() => console.log("Done"));
+processPlayers(apiData as Record<string, Player[]>).then(() => {
+    console.log("Done");
+});
 
 // function findDuplicatePlayers(players: Record<TeamName, Player[]>) {
 //     const playerIds = new Set();
