@@ -125,12 +125,10 @@ export interface Player {
     dob: BirthData["date"];
     height: PlayerData["height"];
     weight: PlayerData["weight"];
-    injured: PlayerData["injured"];
     photo: PlayerData["photo"];
     team: TeamData["name"];
     appearances: GameData["appearences"]; // The API misspells "appearances"
     minutes: GameData["minutes"];
-    captain: GameData["captain"];
     shotsTotal: ShotData["total"] & number; // can't be null
     shotsOnTarget: ShotData["on"] & number; // can't be null
     goalsScored: GoalData["total"];

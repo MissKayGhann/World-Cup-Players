@@ -1,4 +1,6 @@
 import apiData from "../output.json";
+import fs from "fs";
+import path from "path";
 
 import { ddbdClient } from "../lib";
 import { TeamName, Player } from "./types";
@@ -79,9 +81,33 @@ function findDuplicatePlayers(players: Record<TeamName, Player[]>) {
     }
 }
 
-findDuplicatePlayers(apiData as Record<string, Player[]>);
-throw new Error("done");
-processPlayers(apiData as Record<string, Player[]>).then(() => console.log("Done"));
+const newData: Record<string, Player[]> = {};
+for (let [nation, players] of Object.entries(apiData)) {
+    newData[nation] = [];
+    for (let player of players) {
+        const newPlayer: any = {};
+        for (let [key, value] of Object.entries(player)) {
+            if (key !== "injured" && key !== "captain") {
+                newPlayer[key] = value;
+            }
+        }
+        newData[nation].push(newPlayer);
+    }
+}
+fs.writeFile(
+    path.join(__dirname, "../newOutput.json"),
+    JSON.stringify(newData, undefined, 4),
+    err => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log("Successfully wrote to new output file");
+        throw new Error("done");
+        findDuplicatePlayers(apiData as Record<string, Player[]>);
+        processPlayers(apiData as Record<string, Player[]>).then(() => console.log("Done"));
+    }
+);
 
 // import "isomorphic-fetch";
 // import fs from "node:fs";
