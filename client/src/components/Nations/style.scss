@@ -8,6 +8,7 @@
 	text-align: center;
 	width: 25vw;
 	height: 25vw;
+	background-color: #a23982;
 	margin: 0;
 	padding: 0;
 	border-radius: 30px;
@@ -25,12 +26,12 @@
 		.nation-horizontal-text {
 			font-size: 30px;
 			display: block;
-			
+	background-color: rgba(240, 89, 114, .7);
 		}
 
 	}
 
-	img {
+	.nation-flag {
 		width: 100%;
 		height: 100%;
 		position: absolute;

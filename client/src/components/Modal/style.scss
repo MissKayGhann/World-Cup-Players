@@ -30,6 +30,20 @@ background: rgb(39, 2, 12);
 	align-items: center;
 	margin-top: 10px;
 
+	.nation-stats {
+		width: 100%;
+		display: grid;
+		grid-template-columns: auto auto auto;
+		justify-content: center;
+		row-gap: 5px;
+		column-gap: 5px;
+		margin-bottom: 30px;
+		
+		.stats-summary-container {
+			mix-blend-mode: luminosity;
+		}
+	}
+
 	p {
 		padding: 0 25px 0 15px;
 		text-align: justify;

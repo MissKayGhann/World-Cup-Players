@@ -1,6 +1,6 @@
 .home-btn {
-    width: 80px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     position: absolute;
     top: 25px;
     left: 20px;
@@ -9,12 +9,24 @@
     font-weight: 600;
     text-decoration: underline;
     background-color: transparent;
-    border: 1px solid purple;
+    border: 0;
+    padding: 0;
+    margin: 0;
     color: white;
     transition: all .2s ease;
 
     &:hover {
         background-color: purple;
+    background-clip: border-box;
+    }
+}
+
+.github-btn {
+    left: 95%;
+    background-clip: border-box;
+    
+    a > img {
+        width: 100%;
     }
 }
 
@@ -22,6 +34,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    margin-top: 20px;
 
 
     .search-results-container {
@@ -29,15 +43,55 @@
         width: calc(50% + 275px);
         height: 100%;
     }
+
+    .z-index {
+        z-index: 1;
+    }
+
+    .filtered-results {
+        position: absolute;
+        top: 120px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 10px;
+
+        .player-overview {
+            // background-color: rgb(208, 183, 208);
+            background: transparent;
+            border-bottom: 1px solid white;
+            color: rgb(227, 180, 227);
+            width: 95vw;
+
+            &:hover {
+                #player-name {
+                    text-decoration: underline;
+                }
+            }
+
+            #nation-and-position {
+                color: rgb(163, 163, 163);
+            }
+        }
+
+        .player-content {
+            width: 95vw;
+
+            .players-grid, .players-grid {
+                color: white;
+            }
+        }
+
+    }
 }
 
 .search-form {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
     width: 100%;
-    min-width: 620px;
+    height: 100%;
+    min-width: 480px;
     height: 50px;
     opacity: 1;
     transition: all .3s ease;
@@ -92,6 +146,10 @@
             display: none;
         }
     }
+}
+
+.info-btn {
+
 }
 
 .results-border {
