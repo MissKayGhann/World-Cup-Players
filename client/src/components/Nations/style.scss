@@ -1,0 +1,108 @@
+// importing variables & functions (mixins) from stylesheet
+@import '../../styles/variables.scss';
+
+
+.nation-box {
+	display: flex;
+	flex-direction: column-reverse;
+	text-align: center;
+	width: 25vw;
+	height: 25vw;
+	background-color: #a23982;
+	margin: 0;
+	padding: 0;
+	border-radius: 30px;
+	position: relative;
+	cursor: pointer;
+	box-shadow: 0 6.4px 14.4px 0 rgb(0 0 0 / 13%), 0 1.2px 3.6px 0 rgb(0 0 0 / 11%);
+	opacity: 0.6;
+	transition: $transition-time all ease; // $transition-time defined in ../../styles/variables.scss
+
+	&:hover {
+		transform: scale(1.02);
+		opacity: 1;
+		z-index: 3 ;
+
+		.nation-horizontal-text {
+			font-size: 30px;
+			display: block;
+			background-color: rgba(240, 89, 114, .7);
+		}
+
+	}
+
+	.nation-flag {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		border-radius: 30px;
+	}
+}
+
+.nation-horizontal-text {
+	@include flex-container(column, center, center); // defined in ../../styles/variables.scss
+	z-index: 1; // This line is apparently important!
+	transition: $transition-time all ease;
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	border-radius: 0 0 30px 30px;
+	position: relative;
+	display: inline-block;
+	display: none;
+	margin: 0;
+	padding-bottom: 0;
+	
+}
+
+.nation-horizontal-text::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	transform: scaleX(0);
+	font-size: 30px;
+	height: 2px;
+	bottom: 20px;
+	left: 0;
+	background-color: #ffffff;
+	transform-origin: bottom right;
+	transition: transform 0.25s ease-out;
+  }
+  
+  .nation-horizontal-text:hover::after {
+	transform: scaleX(1);
+	transform-origin: bottom left;
+  }
+
+.modal-container {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 3;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+@media (min-width: 1250px) {
+	.nation-box {
+		width: 350px;
+		height: 350px;
+	}
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}

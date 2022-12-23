@@ -1,0 +1,28 @@
+@import '../../styles/variables.scss';
+
+.result-entry-container {
+		@include flex-container(row, flex-start, center);
+		column-gap: 10px;
+		cursor: pointer;
+		padding-inline: 10px;
+		background: rgba(255, 255, 255, 1);
+		transition: all .2s ease;
+
+		&:hover {
+			background:rgba(255, 255, 255, 0.7);
+		}
+
+		&:last-child {
+			border-radius: 0 0 30px 30px;
+		}
+
+		.search-result-content {
+			flex-grow: 1;
+		}
+
+		.delete-icon {
+				justify-self: flex-end;
+				width: 24px;
+				padding-right: 5px;
+		}
+}
